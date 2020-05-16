@@ -1,0 +1,14 @@
+import axios from "axios";
+import history from "../history";
+
+export const getCurrUser = () => {
+	return async (dispatch) => {
+		const response = await axios.get("/api/current_user");
+		console.log("action creator payload:")
+		console.log(response.data[0]);
+
+		dispatch({type: "GET_CURR_USER", payload: response.data[0]});
+
+		//history.push("/playlists"); //redirect to index page
+	};
+};
