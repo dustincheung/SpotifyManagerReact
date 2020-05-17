@@ -5,13 +5,16 @@ import {connect} from "react-redux";
 class AuthComponent extends React.Component{
 
 	render(){
+		const uri = process.env.REACT_APP_BACKEND_URI || 'http://localhost:5000';
 		switch(this.props.auth){
 			case null:
 				return null; //still loading return nothing
 			case false:
-				return <a className="ui teal button" href="/login"> sign into spotify </a>;
+				const loginPath = uri + "/login";
+				return <a className="ui teal button" href={loginPath}> sign into spotify </a>;
 			default:
-				return <a className="ui teal button" href="/api/logout"> sign out </a>;
+				const logoutPath = uri + "/api/logout";
+				return <a className="ui teal button" href={logoutPath}> sign out </a>;
 		}
 	}
 }
