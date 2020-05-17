@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     ["/api/*", "/login"],			//requests to these routes will automatically redirect to express 5000 server
     createProxyMiddleware({
-      target: "http://localhost:5000",
+      target: process.env.BACKEND_URI || 'http://localhost:5000',
     })
   );
 };
