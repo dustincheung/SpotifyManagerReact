@@ -3,7 +3,7 @@ export default (state = null, action) =>{
 	console.log(action.payload);
 	switch(action.type){
 		case "GET_CURR_USER":
-			return action.payload || false;    //if action.payload is not yet defined return false
+			return action.payload;    //if action.payload is not yet defined return false
 		default:
 			return state;
 	}
