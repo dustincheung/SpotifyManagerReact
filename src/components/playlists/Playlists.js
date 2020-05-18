@@ -1,9 +1,11 @@
 import React from "react";
+import {connect} from "react-redux";
+import {getPlaylists} from "../../actions"
 
 class Playlists extends React.Component{
 	
 	componentDidMount(){
-		
+		this.props.getPlaylists();
 	}
 
 	renderPlaylists = () => {
@@ -22,4 +24,4 @@ class Playlists extends React.Component{
 	}
 }
 
-export default Playlists;
+export default connect(null,{getPlaylists})(Playlists);
