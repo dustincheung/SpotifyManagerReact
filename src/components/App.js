@@ -9,6 +9,7 @@ import {getCurrUser} from "../actions";
 import Menu from "./Menu";
 import Landing from "./Landing"
 import Playlists from "./playlists/Playlists"
+import PlaylistShow from "./playlists/PlaylistShow"
 import history from "../history";
 
 class App extends React.Component {
@@ -26,6 +27,7 @@ class App extends React.Component {
 						<Switch>
 							<Route path="/" exact component={Landing}/>
 							<Route path="/playlists" exact component={Playlists}/>
+							<Route path="/playlists/:id" exact component={PlaylistShow}/>
 						</Switch>
 					</div>
 				</Router>

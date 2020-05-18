@@ -2,14 +2,8 @@ import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
-import {getPlaylists} from "../actions";
 
 class Landing extends React.Component {
-
-	onButtonClick = () => {
-		this.props.getPlaylists();
-	}
-
 	render(){
 		
 		if(this.props.authId){
@@ -17,7 +11,7 @@ class Landing extends React.Component {
 				<div>
 					<h1 className="ui header"> hello {this.props.authId}, </h1>
 					<h2 className="ui header"> welcome to your playlist manager. </h2>
-					<button className="ui button" onClick={this.onButtonClick}> check out your playlists </button>
+					<Link className="ui button primary" to="/playlists">check out your playlists</Link>
 				</div>
 			);
 		} else {
@@ -40,4 +34,4 @@ function mapStateToProps(state){
 	}
 } 
 
-export default connect(mapStateToProps,{getPlaylists})(Landing);
+export default connect(mapStateToProps)(Landing);

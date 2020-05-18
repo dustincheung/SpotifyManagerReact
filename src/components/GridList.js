@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, Image, Button, Card } from 'semantic-ui-react'
+import {Link} from "react-router-dom";
 
 class GridList extends React.Component{
   render(){
@@ -8,7 +9,7 @@ class GridList extends React.Component{
         <Grid columns={3} divided>
           <Grid.Row>
             {playlists.map((playlist) =>
-              <Grid.Column>
+              <Grid.Column key={playlist.id}>
                 <Card>
                   <Card.Content>
                     <Image
@@ -22,11 +23,11 @@ class GridList extends React.Component{
                       {playlists.description}
                     </Card.Description>
                     <div className='ui two buttons'>
-                      <Button basic color='green'>
-                        Approve
-                      </Button>
+                      <Link className="ui button primary" to={"/playlists/" + playlist.id}>
+                        Details
+                      </Link>
                       <Button basic color='red'>
-                        Decline
+                        Delete
                       </Button>
                     </div>
                   </Card.Content>
