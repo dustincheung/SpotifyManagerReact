@@ -33,12 +33,12 @@ export const getCurrUser = () => {
 export const getPlaylists = () => {
 	return async (dispatch, getState) => {
 		const spotifyWebApi = new Spotify();
-		console.log("GET PLAYLISTS");
-		console.log(getState());
 		spotifyWebApi.setAccessToken(getState().auth.accessToken);
 		const response = await spotifyWebApi.getUserPlaylists(getState().auth.userId, {limit: 50});		
-		//const response = await axios.get("https://api.spotify.com/v1/users/" + getState().auth.userId + "/playlists");
-		console.log(response.items);
+		console.log("RESPONSE");
+		console.log(response);
 		dispatch({type: "INDEX_PLAYLISTS", payload: response.items});
+
+		history.push("/playlists"); //redirect to index page ONLY after playlists state has been set
 	};
 };
