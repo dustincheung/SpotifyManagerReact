@@ -1,4 +1,5 @@
 import React from "react";
+import GridList from "../GridList";
 import {connect} from "react-redux";
 import {getPlaylists} from "../../actions"
 
@@ -8,20 +9,18 @@ class Playlists extends React.Component{
 		this.props.getPlaylists();
 	}
 
-	renderPlaylists = () => {
-  		return(
-  			<h3> render playlists here </h3>
-  		);
-	}
-
 	render(){
 		return(
 			<div>
-				<h1 className="ui header"> your playlists: </h1>
-				<div> {this.renderPlaylists()} </div>
+				<h1 className="ui header"> Hi {this.props.authId}, here are your playlists: </h1>
+				<div> <GridList/> </div>
 			</div>
 		);
 	}
 }
 
-export default connect(null,{getPlaylists})(Playlists);
+function mapStateToProps(state){
+	return {authId: state.auth.userId};
+}
+
+export default connect(mapStateToProps,{getPlaylists})(Playlists);

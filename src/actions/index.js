@@ -36,8 +36,9 @@ export const getPlaylists = () => {
 		console.log("GET PLAYLISTS");
 		console.log(getState());
 		spotifyWebApi.setAccessToken(getState().auth.accessToken);
-		const response = await spotifyWebApi.getUserPlaylists(getState().auth.userId);
-
-		console.log(response);
+		const response = await spotifyWebApi.getUserPlaylists(getState().auth.userId, {limit: 50});		
+		//const response = await axios.get("https://api.spotify.com/v1/users/" + getState().auth.userId + "/playlists");
+		console.log(response.items);
+		dispatch({type: "INDEX_PLAYLISTS", payload: response.items});
 	};
 };
