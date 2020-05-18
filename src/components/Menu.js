@@ -6,7 +6,7 @@ const Menu = () => {
 	return (
 		<div className="ui secondary pointing menu" style={{padding: "5px"}}>
 			<Link to="/" className="item">
-				PlaylistPals
+				SpotifyManager
 			</Link>
 			<div className="right menu">
 				<AuthComponent/>
