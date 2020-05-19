@@ -10,14 +10,14 @@ class Landing extends React.Component {
 			return(
 				<div>
 					<h1 className="ui header"> hello {this.props.authId}, </h1>
-					<h2 className="ui header"> welcome to your playlist manager. </h2>
+					<h2 className="ui header"> welcome to your SpotifyManager. </h2>
 					<Link className="ui button primary" to="/playlists">check out your playlists</Link>
 				</div>
 			);
 		} else {
 			return(
 				<div>
-					<h1 className="ui header"> welcome to playlist managager, </h1>
+					<h1 className="ui header"> welcome to SpotifyManager, </h1>
 					<h2 className="ui header"> please sign in to manage your playlists. </h2>
 				</div>
 			);
