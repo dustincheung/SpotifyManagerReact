@@ -8,7 +8,6 @@ class AuthComponent extends React.Component{
 		const uri = process.env.REACT_APP_BACKEND_URI || 'http://localhost:5000';
 		switch(this.props.auth){
 			case null:
-				return null; //still loading return nothing
 			case false:
 				const loginPath = uri + "/login";
 				return <a className="ui teal button" href={loginPath}> sign into spotify </a>;
