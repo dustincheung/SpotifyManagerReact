@@ -1,32 +1,46 @@
 import React from "react";
 import {connect} from "react-redux";
-import { Card, Icon, Image } from 'semantic-ui-react'
+
+import {getTracks} from "../../actions";              //action creator
+import TrackCard from "../tracks/TrackCard";
 
 class PlaylistShow extends React.Component{
 	componentDidMount(){	
-													
+    this.props.getTracks(this.props.playlist);
 	}
 
 	render(){
+    if(!this.props.tracks){
+      return(
+        <div> LOADING </div>
+      )
+    }
+
+    let tracks = this.props.tracks;
+
 		return(
-			<Card>
-    			<Image src={this.props.playlist.images[0].url} wrapped ui={false} />
-    			<Card.Content>
-      				<Card.Header>{this.props.playlist.name}</Card.Header>
-      				<Card.Meta>
-        				<span className='date'>{this.props.playlist.tracks.total} tracks</span>
-      				</Card.Meta>
-      				<Card.Description>
-        				This is a {this.props.playlist.public ? "public" : "private"} playlist created by {this.props.playlist.owner.display_name}.
-      				</Card.Description>
-    				</Card.Content>
-   			 		<Card.Content extra>
-      					<a>
-        					<Icon name='trash alternate'/>
-        					Delete this playlist
-      					</a>
-    			</Card.Content>
-  			</Card>
+      <div className="ui grid">
+        <div className="five wide column">
+          <TrackCard playlist={this.props.playlist}/>
+        </div>
+        <div className="eleven wide column">
+          <div className="ui segment">
+            <div className="ui relaxed divided list">
+              {tracks.map((track) =>
+                <div className="item" key={track.track.id}>
+                  <div className="content">
+                    <div className="header">{track.track.name}</div>
+                    By {track.track.artists[0].name}
+                  </div>
+                </div>
+              )}
+              <div className="item">
+                <button class="fluid ui button"> + </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 		);
 	}
 }
@@ -41,7 +55,10 @@ function search(idKey, array){
 
 function mapStateToProps(state, ownProps){
 	const currPlaylist = search(ownProps.match.params.id, state.playlists);
-	return {playlist: currPlaylist}
+	return {
+    playlist: currPlaylist,
+    tracks: state.tracks
+  }
 }
 
-export default connect(mapStateToProps)(PlaylistShow);
+export default connect(mapStateToProps, {getTracks})(PlaylistShow);

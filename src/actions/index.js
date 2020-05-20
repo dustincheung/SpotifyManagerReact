@@ -35,10 +35,24 @@ export const getPlaylists = () => {
 		const spotifyWebApi = new Spotify();
 		spotifyWebApi.setAccessToken(getState().auth.accessToken);
 		const response = await spotifyWebApi.getUserPlaylists(getState().auth.userId, {limit: 50});		
-		console.log("RESPONSE");
-		console.log(response);
+		console.log("getPlaylists response:" + response);
 		dispatch({type: "INDEX_PLAYLISTS", payload: response.items});
 
 		history.push("/playlists"); //redirect to index page ONLY after playlists state has been set
+	};
+};
+
+export const getTracks = (playlist) => {
+	return async (dispatch, getState) => {
+		console.log("Bearer" + getState().auth.accessToken);
+		const response = await axios.get(playlist.tracks.href, 
+		{
+			headers: {
+				Authorization: "Bearer " + getState().auth.accessToken
+			}
+		});
+
+		console.log(response);
+		dispatch({type: "INDEX_TRACKS", payload: response.data.items});
 	};
 };

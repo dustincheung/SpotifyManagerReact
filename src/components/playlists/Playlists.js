@@ -19,14 +19,21 @@ class Playlists extends React.Component{
 
 		return(
 			<div>
-				<Header as='h1'>
-    				Playlists Page
-    				<Header.Subheader>
-      					Hi {this.props.authId}, you can view and manage your playlists here.
-      				</Header.Subheader>
-  				</Header>
-  				<div> <GridList playlists={this.props.playlists}/> </div>
-			</div>	
+				<div>
+					<h1 className="ui header">
+						Playlists Page
+					</h1>
+    				<div>
+    					<h3 className="ui header">
+    						Hi {this.props.authId}, you can view and manage your playlists here.
+    					</h3>
+    				</div>
+  				</div>
+  				<div> 
+  					<GridList playlists={this.props.playlists}/> 
+  				</div>
+			</div>
+			
 		);
 	}
 }
