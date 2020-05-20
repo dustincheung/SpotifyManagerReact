@@ -56,3 +56,14 @@ export const getTracks = (playlist) => {
 		dispatch({type: "INDEX_TRACKS", payload: response.data.items});
 	};
 };
+
+export const deletePlaylist = (id) => {
+	return async (dispatch, getState) => {
+		const spotifyWebApi = new Spotify();
+		spotifyWebApi.setAccessToken(getState().auth.accessToken);
+		await spotifyWebApi.unfollowPlaylist(id);
+
+		dispatch({type: "DELETE_PLAYLIST", payload: id});
+		history.push("/playlists");
+	}
+}

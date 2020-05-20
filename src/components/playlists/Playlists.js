@@ -24,7 +24,7 @@ class Playlists extends React.Component{
 						Playlists Page
 					</h1>
     				<div>
-    					<h3 className="ui header">
+    					<h3 className="ui header" style={{paddingBottom: "25px"}}>
     						Hi {this.props.authId}, you can view and manage your playlists here.
     					</h3>
     				</div>

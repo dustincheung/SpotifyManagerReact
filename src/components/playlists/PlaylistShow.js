@@ -35,7 +35,7 @@ class PlaylistShow extends React.Component{
                 </div>
               )}
               <div className="item">
-                <button class="fluid ui button"> + </button>
+                <button className="fluid ui button"> + </button>
               </div>
             </div>
           </div>
