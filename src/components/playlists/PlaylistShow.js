@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 
 import {getTracks} from "../../actions";              //action creator
-import TrackCard from "../tracks/TrackCard";
+import PlaylistCard from "./PlaylistCard";
 
 class PlaylistShow extends React.Component{
 	componentDidMount(){	
@@ -21,7 +21,7 @@ class PlaylistShow extends React.Component{
 		return(
       <div className="ui grid">
         <div className="five wide column">
-          <TrackCard playlist={this.props.playlist}/>
+          <PlaylistCard playlist={this.props.playlist}/>
         </div>
         <div className="eleven wide column">
           <div className="ui segment">

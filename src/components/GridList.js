@@ -1,6 +1,6 @@
 import React from "react";
 
-import TrackCard from "./tracks/TrackCard";
+import PlaylistCard from "./playlists/PlaylistCard";
 
 class GridList extends React.Component{
   render(){
@@ -8,7 +8,7 @@ class GridList extends React.Component{
     return (
       <div className="ui four cards">
        {playlists.map((playlist) =>
-          <TrackCard playlist={playlist} key={playlist.id}/>
+          <PlaylistCard playlist={playlist} key={playlist.id}/>
         )} 
       </div>
     );

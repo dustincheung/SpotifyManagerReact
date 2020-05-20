@@ -4,13 +4,18 @@ import {connect} from "react-redux";
 import {deletePlaylist} from "../../actions";
 import history from "../../history";
 
-class TrackCard extends React.Component {
+class PlaylistCard extends React.Component {
+
+	onDeleteClick(event){
+		event.stopPropagation();
+		this.props.deletePlaylist(this.props.playlist.id)
+	}
 	
 	renderDelete(){
 		console.log(this.props.currUser + "=" + this.props.playlist.owner.id);
 		if(this.props.currUser === this.props.playlist.owner.id){
 			return(
-				<button className="fluid ui button" onClick={() => this.props.deletePlaylist(this.props.playlist.id)} style={{backgroundColor: "white"}}>
+				<button className="fluid ui button" onClick={(event) => this.onDeleteClick(event) } style={{backgroundColor: "white"}}>
               		<i className="trash alternate icon"></i>
               		Delete this playlist
             	</button>
@@ -53,4 +58,4 @@ const mapStateToProps = (state) => {
 	};
 }
 
-export default connect(mapStateToProps,{deletePlaylist})(TrackCard);
+export default connect(mapStateToProps,{deletePlaylist})(PlaylistCard);

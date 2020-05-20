@@ -1,7 +1,6 @@
 import React from "react";
 import GridList from "../GridList";
 import {connect} from "react-redux";
-import { Header } from 'semantic-ui-react';
 
 import {getCurrUser} from "../../actions";
 import {getPlaylists} from "../../actions";
