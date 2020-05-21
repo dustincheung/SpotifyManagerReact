@@ -22,41 +22,31 @@ export const getCurrUser = () => {
 			}																		//a non initial redirect to /playlists shouldn't change state
 		}
 
-		console.log(authStateData);
-
-		
 		dispatch({type: "GET_CURR_USER", payload: authStateData});
-		
-
-		//history.push("/playlists"); //redirect to index page
 	};
+};
+
+export const createPlaylist = (formValues) => {
+	return async (dispatch, getState) => {
+		const spotifyWebApi = new Spotify();
+		spotifyWebApi.setAccessToken(getState().auth.accessToken);
+		const response = await spotifyWebApi.createPlaylist(getState().auth.userId, formValues);
+
+		dispatch({type: "CREATE_PLAYLIST", payload: response});
+
+		history.push("/playlists");
+	}
 };
 
 export const getPlaylists = () => {
 	return async (dispatch, getState) => {
-		console.log("ACCESSTOKEN: " + getState().auth.accessToken);
 		const spotifyWebApi = new Spotify();
 		spotifyWebApi.setAccessToken(getState().auth.accessToken);
 		const response = await spotifyWebApi.getUserPlaylists(getState().auth.userId, {limit: 50});		
-		console.log("getPlaylists response:" + response);
+
 		dispatch({type: "INDEX_PLAYLISTS", payload: response.items});
 
 		history.push("/playlists"); //redirect to index page ONLY after playlists state has been set
-	};
-};
-
-export const getTracks = (playlist) => {
-	return async (dispatch, getState) => {
-		console.log("Bearer" + getState().auth.accessToken);
-		const response = await axios.get(playlist.tracks.href, 
-		{
-			headers: {
-				Authorization: "Bearer " + getState().auth.accessToken
-			}
-		});
-
-		console.log(response);
-		dispatch({type: "INDEX_TRACKS", payload: response.data.items});
 	};
 };
 
@@ -70,3 +60,16 @@ export const deletePlaylist = (id) => {
 		history.push("/playlists");
 	}
 }
+
+export const getTracks = (playlist) => {
+	return async (dispatch, getState) => {
+		const response = await axios.get(playlist.tracks.href, 
+		{
+			headers: {
+				Authorization: "Bearer " + getState().auth.accessToken
+			}
+		});
+
+		dispatch({type: "INDEX_TRACKS", payload: response.data.items});
+	};
+};

@@ -1,9 +1,9 @@
 import React from "react";
 import GridList from "../GridList";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
-import {getCurrUser} from "../../actions";
-import {getPlaylists} from "../../actions";
+import {getCurrUser, getPlaylists, createPlaylist} from "../../actions";
 
 class Playlists extends React.Component{
 	async componentDidMount(){								//async await is used to ensure access token is set in auth state
@@ -18,16 +18,28 @@ class Playlists extends React.Component{
 
 		return(
 			<div>
-				<div>
-					<h1 className="ui header">
-						Playlists Page
-					</h1>
-    				<div>
-    					<h3 className="ui header" style={{paddingBottom: "25px"}}>
-    						Hi {this.props.authId}, you can view and manage your playlists here.
-    					</h3>
-    				</div>
-  				</div>
+  				<div className="ui grid">
+  					<div className="thirteen wide column">
+  						<h1 className="display-5" >
+							Playlists Page
+						</h1>
+    					<div>
+    						<p className="lead" style={{paddingBottom: "1.2em", fontSize: "1.5em"}}>
+    							Hi {this.props.authId}, you can view and manage your playlists here.
+    						</p>
+    					</div>
+  					</div>
+ 					<div className="three wide column">
+ 						<Link className="ui vertical animated button" style={{float: "right", marginTop: "2.5em"}} to="/playlists/new">
+  							<div className="hidden content">
+  								<i className="plus icon"></i>
+  							</div>
+  							<div className="visible content">
+    							create a playlist
+  							</div>
+						</Link>
+ 					</div>
+				</div>
   				<div> 
   					<GridList playlists={this.props.playlists}/> 
   				</div>
@@ -48,4 +60,4 @@ function mapStateToProps(state){
 	}
 }
 
-export default connect(mapStateToProps, {getCurrUser, getPlaylists})(Playlists);
+export default connect(mapStateToProps, {getCurrUser, getPlaylists, createPlaylist})(Playlists);

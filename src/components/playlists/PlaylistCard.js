@@ -11,8 +11,18 @@ class PlaylistCard extends React.Component {
 		this.props.deletePlaylist(this.props.playlist.id)
 	}
 	
+	renderImage(){
+		if(this.props.playlist.images[0]){
+			return(
+				<img src={this.props.playlist.images[0].url} alt=""/>
+			);
+		}
+
+		return(
+			<img src="/musicicon.png" alt=""/>
+		);
+	}
 	renderDelete(){
-		console.log(this.props.currUser + "=" + this.props.playlist.owner.id);
 		if(this.props.currUser === this.props.playlist.owner.id){
 			return(
 				<button className="fluid ui button" onClick={(event) => this.onDeleteClick(event) } style={{backgroundColor: "white"}}>
@@ -33,7 +43,7 @@ class PlaylistCard extends React.Component {
 		return(
 			<a className="ui raised card" onClick={() => history.push("/playlists/" + this.props.playlist.id)}>
        	  		<div className="image">
-            		<img src={this.props.playlist.images[0].url} alt=""/>
+       	  			{this.renderImage()}
           		</div>
           		<div className="content">
            		 <div className="header">{this.props.playlist.name}</div>

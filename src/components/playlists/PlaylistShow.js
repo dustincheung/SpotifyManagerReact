@@ -35,7 +35,12 @@ class PlaylistShow extends React.Component{
                 </div>
               )}
               <div className="item">
-                <button className="fluid ui button"> + </button>
+                <div className="ui vertical fluid animated button">
+                  <div className="hidden content"> add track</div>
+                  <div className="visible content">
+                    <i className="plus icon"></i>
+                  </div>      
+                </div>          
               </div>
             </div>
           </div>

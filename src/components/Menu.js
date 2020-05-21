@@ -1,19 +1,39 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 
 import AuthComponent from "./AuthComponent";
-const Menu = () => {
-	return (
+class Menu extends React.Component {
+	renderUserMenu(){
+		if(this.props.currUser){
+			return(
+				<Link to="/playlists" className="item">
+					Playlists
+				</Link>
+			);
+		}
+	}
 
-		<div className="ui secondary pointing menu" style={{padding: "5px"}}>
-  			<Link to="/" className=" active item">
-				SpotifyManager
-			</Link>
-  			<div className="right menu">
-    			<AuthComponent/>
-  			</div>
-		</div>
-	);
-};
+	render(){
+		return (
+			<div className="ui secondary pointing menu" style={{padding: "5px"}}>
+  				<Link to="/" className=" active item">
+					<i className="spotify icon"></i> SpotifyManager
+				</Link>
+				{this.renderUserMenu()}
+  				<div className="right menu">
+    				<AuthComponent/>
+  				</div>
+			</div>
+		);
+	}
+}
 
-export default Menu;
+function mapStateToProps(state){
+	if(state.auth){
+		return {
+			currUser: state.auth.userId
+		};
+	}
+}
+export default connect(mapStateToProps)(Menu);
