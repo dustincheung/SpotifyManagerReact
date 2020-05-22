@@ -9,6 +9,7 @@ import Landing from "./Landing";
 import Playlists from "./playlists/Playlists";
 import PlaylistCreate from "./playlists/PlaylistCreate";
 import PlaylistShow from "./playlists/PlaylistShow";
+import TracksCreate from "./tracks/TracksCreate";
 import history from "../history";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
 						<Route path="/playlists" exact component={Playlists}/>
 						<Route path="/playlists/new" excact component={PlaylistCreate}/>
 						<Route path="/playlists/:id" exact component={PlaylistShow}/>
+						<Route path="/playlists/:id/tracks/new" exact component={TracksCreate}/>
 					</Switch>
 				</div>
 			</Router>

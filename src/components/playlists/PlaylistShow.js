@@ -1,8 +1,10 @@
 import React from "react";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 import {getTracks} from "../../actions";              //action creator
 import PlaylistCard from "./PlaylistCard";
+import TracksList from "../tracks/TracksList";
 
 class PlaylistShow extends React.Component{
 	componentDidMount(){	
@@ -10,40 +12,36 @@ class PlaylistShow extends React.Component{
 	}
 
 	render(){
-    if(!this.props.tracks){
+    if(!this.props.tracks || !this.props.playlist){
       return(
         <div> LOADING </div>
       )
     }
 
     let tracks = this.props.tracks;
+    let tracksCreatePath = this.props.playlist.id + "/tracks/new";
 
 		return(
       <div className="ui grid">
         <div className="five wide column">
           <PlaylistCard playlist={this.props.playlist}/>
+          <div className="ui vertical labeled icon buttons" style={{width: "90%"}}>
+            <Link className="ui button">
+              <i className="edit icon"></i>
+              Edit Info
+            </Link>
+            <Link className="ui button" to={tracksCreatePath}>
+              <i className="plus icon"></i>
+              Add Tracks
+            </Link>
+           <Link className="ui button">
+              <i className="edit icon"></i>
+              Share
+            </Link>
+          </div>
         </div>
         <div className="eleven wide column">
-          <div className="ui segment">
-            <div className="ui relaxed divided list">
-              {tracks.map((track) =>
-                <div className="item" key={track.track.id}>
-                  <div className="content">
-                    <div className="header">{track.track.name}</div>
-                    By {track.track.artists[0].name}
-                  </div>
-                </div>
-              )}
-              <div className="item">
-                <div className="ui vertical fluid animated button">
-                  <div className="hidden content"> add track</div>
-                  <div className="visible content">
-                    <i className="plus icon"></i>
-                  </div>      
-                </div>          
-              </div>
-            </div>
-          </div>
+          <TracksList tracks={tracks} type="SHOW"/>
         </div>
       </div>
 		);

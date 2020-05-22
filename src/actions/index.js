@@ -73,3 +73,46 @@ export const getTracks = (playlist) => {
 		dispatch({type: "INDEX_TRACKS", payload: response.data.items});
 	};
 };
+
+export const createTracks = (trackUris, playlistId) => {
+	return async (dispatch, getState) => {
+		//no dispatch because there is no purpose in adding the tracks to our state, as soon as we redirect back to the 
+		//playlists show page it will grab tracks through api, thus pulling the most recent tracks
+		//all we do here is post the new tracks through the spotify api
+		const spotifyWebApi = new Spotify();
+		spotifyWebApi.setAccessToken(getState().auth.accessToken);
+		await spotifyWebApi.addTracksToPlaylist(playlistId, trackUris);
+
+		history.push("/playlists/" + playlistId);
+	}
+}
+
+export const getSearchTracks = (formValues) => {
+	return async (dispatch, getState) => {
+		const spotifyWebApi = new Spotify();
+		spotifyWebApi.setAccessToken(getState().auth.accessToken);
+		const response = await spotifyWebApi.search(formValues.searchTerm, ['track']);	
+
+		dispatch({type: "INDEX_SEARCHTRACKS", payload: response.tracks.items})
+	}
+}
+
+export const createSearchTrack = (trackToDelete) => {
+	return {type: "CREATE_SEARCHTRACK", payload: trackToDelete};
+}
+
+export const deleteSearchTrack = (id) => {
+	return {type: "DELETE_SEARCHTRACK", payload: id};
+}
+
+export const createAddTracks = (trackToAdd) => {
+	return {type: "CREATE_TRACKSTOADD", payload: trackToAdd};
+}
+
+export const deleteAddTrack = (id) => {
+	return {type: "DELETE_ADDTRACK", payload: id};
+}
+
+export const clearSearchAddTracks= () => {
+	return {type: "CLEAR_TRACKS", payload: []};
+}
