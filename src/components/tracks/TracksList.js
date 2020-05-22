@@ -39,7 +39,7 @@ class TracksList extends React.Component{
    					</div>
  				</div>
  			);
- 		}else{									//track list that appears in the tracks create (search track feature right col)				
+ 		}else{	//track list that appears in the tracks create (search track feature right col)				
  			return(
  				<div className="tiny ui animated button" onClick={() => this.modifyArray(id)} style={{float: "right"}}>
    					<div className="visible content">
@@ -94,8 +94,6 @@ class TracksList extends React.Component{
 		);
 	}
 }
-
-
 
 const mapStateToProps = (state) => {
 	return {

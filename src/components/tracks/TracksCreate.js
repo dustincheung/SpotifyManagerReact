@@ -8,7 +8,6 @@ import {getSearchTracks, createTracks, clearSearchAddTracks} from "../../actions
 class TracksCreate extends React.Component{
 	
 	onChange = (formValues) => {
-		//console.log(formValues);
 		if(formValues){
 			this.props.getSearchTracks(formValues);
 		}
@@ -29,6 +28,33 @@ class TracksCreate extends React.Component{
 		this.props.clearSearchAddTracks();	//ensures that we clear searchTracks and addTracks before a new search
 	}
 
+	renderSearchTracks = () => {
+		if(this.props.searchTracks.length !== 0){
+			return(
+				<div>
+					<p className="lead" style={{paddingBottom: ".1em", fontSize: "1em"}}>
+    				search results: 
+    				</p>
+  					<TracksList tracks={this.props.searchTracks} type="SEARCH_ADD"/>
+				</div>
+			);
+		}
+	}
+
+	renderAddTracks = () => {
+		if(this.props.addTracks.length !== 0){
+			return(
+				<div>
+					<p className="lead" style={{paddingBottom: ".1em", fontSize: "1em"}}>
+    					tracks to be added: 
+    				</p>
+  					<TracksList tracks={this.props.addTracks} type="SEARCH_DELETE"/>
+  					<button className="fluid ui button" onClick={this.onButtonClick}>add tracks</button>
+				</div>
+			);
+		}
+	}
+
 	render(){
 		return(
 			<div className="ui grid">
@@ -36,17 +62,10 @@ class TracksCreate extends React.Component{
     				<TracksForm onChange={this.onChange}/>
     			</div>
   				<div className="eight wide column">
-  					<p className="lead" style={{paddingBottom: ".1em", fontSize: "1em"}}>
-    					search results: 
-    				</p>
-  					<TracksList tracks={this.props.searchTracks} type="SEARCH_ADD"/>
+  					{this.renderSearchTracks()}
   				</div>
   				<div className="eight wide column">
-  					<p className="lead" style={{paddingBottom: ".1em", fontSize: "1em"}}>
-    					tracks to be added: 
-    				</p>
-  					<TracksList tracks={this.props.addTracks} type="SEARCH_DELETE"/>
-  					<button className="fluid ui button" onClick={this.onButtonClick}>add tracks</button>
+  					{this.renderAddTracks()}
   				</div>
 			</div>
 		);
