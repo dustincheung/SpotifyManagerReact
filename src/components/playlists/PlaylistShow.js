@@ -41,7 +41,7 @@ class PlaylistShow extends React.Component{
           </div>
         </div>
         <div className="eleven wide column">
-          <TracksList tracks={tracks} type="SHOW"/>
+          <TracksList tracks={tracks} type="SHOW" playlistId={this.props.playlist.id}/>
         </div>
       </div>
 		);

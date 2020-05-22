@@ -87,6 +87,20 @@ export const createTracks = (trackUris, playlistId) => {
 	}
 }
 
+export const deleteTrack = (trackId, trackUri, playlistId) => {
+	return async (dispatch, getState) => {
+		const spotifyWebApi = new Spotify();
+		spotifyWebApi.setAccessToken(getState().auth.accessToken);
+		console.log(playlistId);
+		console.log(trackUri);
+		const response = await spotifyWebApi.removeTracksFromPlaylist(playlistId, [trackUri]);
+		console.log(response);
+
+		dispatch({type: "DELETE_TRACK", payload: trackId});
+		history.push("/playlists/" + playlistId);
+	}
+}
+
 export const getSearchTracks = (formValues) => {
 	return async (dispatch, getState) => {
 		const spotifyWebApi = new Spotify();
