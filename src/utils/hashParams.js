@@ -1,9 +1,8 @@
- /**
-  * Obtains parameters from the hash of the URL
-  * @return Object
-  */
+/*  
+ *  Helper function that obtains parameters from the has of the URL, returns object
+ */
 
-function getHashParams() {
+const getHashParams = () => {
   var hashParams = {};
    var e, r = /([^&;=]+)=?([^&;]*)/g,
        q = window.location.hash.substring(1);

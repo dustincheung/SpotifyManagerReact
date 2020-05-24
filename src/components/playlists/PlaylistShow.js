@@ -1,10 +1,14 @@
+/*  
+ *  PlaylistShow renders the playlist card, playlist's tracks, and playlist operations buttons (edit, add tracks, share)
+ */
+
 import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-
-import {getTracks} from "../../actions";              //action creator
+   
 import PlaylistCard from "./PlaylistCard";
 import TracksList from "../tracks/TracksList";
+import {getTracks} from "../../actions";  
 
 class PlaylistShow extends React.Component{
 	componentDidMount(){	
@@ -20,13 +24,14 @@ class PlaylistShow extends React.Component{
 
     let tracks = this.props.tracks;
     let tracksCreatePath = this.props.playlist.id + "/tracks/new";
+    let playlistEditPath = this.props.playlist.id + "/edit";
 
 		return(
       <div className="ui grid">
         <div className="five wide column">
           <PlaylistCard playlist={this.props.playlist}/>
           <div className="ui vertical labeled icon buttons" style={{width: "90%"}}>
-            <Link className="ui button">
+            <Link className="ui button" to={playlistEditPath}>
               <i className="edit icon"></i>
               Edit Info
             </Link>
@@ -48,7 +53,7 @@ class PlaylistShow extends React.Component{
 	}
 }
 
-function search(idKey, array){
+const search = (idKey, array) => {
 	for(var i = 0; i < array.length; i++){
 		if(array[i].id === idKey){
 			return array[i];
@@ -56,7 +61,7 @@ function search(idKey, array){
 	}
 }
 
-function mapStateToProps(state, ownProps){
+const mapStateToProps = (state, ownProps) => {
 	const currPlaylist = search(ownProps.match.params.id, state.playlists);
 	return {
     playlist: currPlaylist,

@@ -1,3 +1,9 @@
+/*  
+ *  TracksCreate renders the TracksForm search input, searchTracks track list, and addTracks track list.
+ * 	This is the component that allows a user to continually modify (add or remove) the tracks that a user wishes
+ *  to add.
+ */
+
 import React from "react";
 import {connect} from "react-redux";
 
@@ -7,25 +13,26 @@ import {getSearchTracks, createTracks, clearSearchAddTracks} from "../../actions
 
 class TracksCreate extends React.Component{
 	
+	render(){
+		return(
+			<div className="ui grid">
+    			<div className="sixteen wide column">
+    				<TracksForm onChange={this.onChange}/>
+    			</div>
+  				<div className="eight wide column">
+  					{this.renderSearchTracks()}
+  				</div>
+  				<div className="eight wide column">
+  					{this.renderAddTracks()}
+  				</div>
+			</div>
+		);
+	}
+
 	onChange = (formValues) => {
 		if(formValues){
 			this.props.getSearchTracks(formValues);
 		}
-	}
-
-	getUriArray = (array) => {
-		let uriArray = [];
-		for(var i =0; i < array.length; i++){
-			uriArray.push(array[i].uri);
-		}
-
-		return uriArray;
-	}
-	onButtonClick = () => {
-		//need to pull an array of uri's out of the array of track objects b/c that is what spotify api requires
-		const trackUriArrays = this.getUriArray(this.props.addTracks);
-		this.props.createTracks(trackUriArrays, this.props.playlistId);
-		this.props.clearSearchAddTracks();	//ensures that we clear searchTracks and addTracks before a new search
 	}
 
 	renderSearchTracks = () => {
@@ -55,28 +62,28 @@ class TracksCreate extends React.Component{
 		}
 	}
 
-	render(){
-		return(
-			<div className="ui grid">
-    			<div className="sixteen wide column">
-    				<TracksForm onChange={this.onChange}/>
-    			</div>
-  				<div className="eight wide column">
-  					{this.renderSearchTracks()}
-  				</div>
-  				<div className="eight wide column">
-  					{this.renderAddTracks()}
-  				</div>
-			</div>
-		);
+	onButtonClick = () => {
+		//need to pull an array of uri's out of the array of track objects b/c that is what spotify api requires
+		const trackUriArrays = this.getUriArray(this.props.addTracks);
+		this.props.createTracks(trackUriArrays, this.props.playlistId);
+		this.props.clearSearchAddTracks();	//ensures that we clear searchTracks and addTracks before a new search
+	}
+
+	getUriArray = (array) => {
+		let uriArray = [];
+		for(var i =0; i < array.length; i++){
+			uriArray.push(array[i].uri);
+		}
+
+		return uriArray;
 	}
 }
 
 const mapStateToProps = (state, ownProps) => {
 	return {
 		playlistId: ownProps.match.params.id,	//current playlist (that is gettin tracks added to) pulled from url path
-		searchTracks: state.searchTracks,
-		addTracks: state.addTracks
+		searchTracks: state.searchTracks,		//tracks found from spotify api search request
+		addTracks: state.addTracks              //tracks that wish to be added by the user
 	};
 }
 

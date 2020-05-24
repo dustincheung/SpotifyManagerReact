@@ -1,35 +1,11 @@
+/*  
+ *  PlaylistForm creates the redux form that takes form values for playlist name and playlist description
+ */
+
 import React from "react";
 import {Field, reduxForm} from "redux-form";//import Field component and reduxForm function
 
 class PlaylistForm extends React.Component{
-
-	renderError(meta){								//helper function to display errors after input is touched
-		if(meta.touched && meta.error){
-			return(
-				<div className="ui error message">
-					<div className="header">
-						{meta.error}
-					</div>
-				</div>
-			);
-		}
-	}
-
-												//helper function that has formProps (label, input, meta)
-	renderInput = (formProps) => {				//used arrow function to protect this context
-		return(
-			<div className="field">					
-				<label>{formProps.label}</label>
-				<input {...formProps.input}/>			
-				{this.renderError(formProps.meta)}
-			</div>
-		); 
-	}
-
-	onSubmit = (formValues) =>{
-		this.props.onSubmit(formValues); //calls onSubmit that is passed down in props
-	}
-
 	//handleSubmit is a redux-form method
 	//Field is just a container component we use component prop to actually render what we want to show
 	//the method in component is automatically called with formProps, our callback onSubmit is auto called
@@ -43,8 +19,33 @@ class PlaylistForm extends React.Component{
 			</form>
 		);
 	}
-}
 
+	onSubmit = (formValues) =>{
+		this.props.onSubmit(formValues); //calls onSubmit that is passed down in props
+	}
+												//helper function that has formProps (label, input, meta)
+	renderInput = (formProps) => {				//used arrow function to protect this context
+		return(
+			<div className="field">					
+				<label>{formProps.label}</label>
+				<input {...formProps.input}/>			
+				{this.renderError(formProps.meta)}
+			</div>
+		); 
+	}
+
+	renderError = (meta) => {					//helper function to display errors after input is touched
+		if(meta.touched && meta.error){
+			return(
+				<div className="ui error message">
+					<div className="header">
+						{meta.error}
+					</div>
+				</div>
+			);
+		}
+	}
+}
 
 //returns empty errors object if no errors, if there are it will add a key value pair to errors obj and return 
 //if a key in the error obj has a key that matches a field name it is auto passed in an argument named formProps.meta

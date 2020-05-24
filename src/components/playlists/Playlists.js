@@ -1,13 +1,17 @@
+/*	
+ * 	Playlist component displays the playlist page for the current user
+ */
+
 import React from "react";
-import GridList from "../GridList";
+import PlaylistGrid from "./PlaylistGrid";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
 import {getCurrUser, getPlaylists, createPlaylist} from "../../actions";
 
 class Playlists extends React.Component{
-	async componentDidMount(){								//async await is used to ensure access token is set in auth state
-		await this.props.getCurrUser();						//before attempting to use it in spotify api request in getPlaylist
+	async componentDidMount(){				//async await is used to ensure access token is set in auth state
+		await this.props.getCurrUser();		//before attempting to use it in spotify api request in getPlaylist
 		this.props.getPlaylists();											
 	}
 
@@ -41,7 +45,7 @@ class Playlists extends React.Component{
  					</div>
 				</div>
   				<div> 
-  					<GridList playlists={this.props.playlists}/> 
+  					<PlaylistGrid playlists={this.props.playlists}/> 
   				</div>
 			</div>
 			
@@ -49,14 +53,16 @@ class Playlists extends React.Component{
 	}
 }
 
-function mapStateToProps(state){
+const mapStateToProps = (state) => {
 	if(state.auth){
 		return {
 			authId: state.auth.userId,
 			playlists: state.playlists
 		};	
 	}else{
-		return null;
+		return {
+			authId: null
+		};
 	}
 }
 

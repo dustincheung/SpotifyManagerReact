@@ -1,8 +1,12 @@
+/*  
+ *  PlaylistGrid component renders the row of PlaylistCard components
+ */
+
 import React from "react";
 
-import PlaylistCard from "./playlists/PlaylistCard";
+import PlaylistCard from "./PlaylistCard";
 
-class GridList extends React.Component{
+class PlaylistGrid extends React.Component{
   render(){
     let playlists = this.props.playlists;
     return (
@@ -15,4 +19,4 @@ class GridList extends React.Component{
   }
 }
 
-export default GridList;    
+export default PlaylistGrid;    

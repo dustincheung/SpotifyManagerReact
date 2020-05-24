@@ -1,6 +1,10 @@
-//file where we combine reducers
+/*	
+ * 	This file imports all of our reducers and combines them.  The states in the 
+ *  combineReducers call are the states that will exist in our redux store.
+ */
+
 import {combineReducers} from "redux";
-import {reducer as formReducer} from "redux-form";
+import {reducer as formReducer} from "redux-form";	
 
 import authReducer from "./authReducer";
 import playlistsReducer from "./playlistsReducer";
@@ -12,7 +16,7 @@ export default combineReducers({
 	auth: authReducer,
 	playlists: playlistsReducer,
 	tracks: tracksReducer,
-	form: formReducer,
+	form: formReducer,					//formsReducer is imported from redux-form
 	searchTracks: searchTracksReducer,
 	addTracks: addTracksReducer
 });

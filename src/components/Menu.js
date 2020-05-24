@@ -1,19 +1,14 @@
+/*	
+ * 	Menu Component that is always visible and routes to landing and playlists component
+ */
+
 import React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 
 import AuthComponent from "./AuthComponent";
-class Menu extends React.Component {
-	renderUserMenu(){
-		if(this.props.currUser){
-			return(
-				<Link to="/playlists" className="item">
-					Playlists
-				</Link>
-			);
-		}
-	}
 
+class Menu extends React.Component {
 	render(){
 		return (
 			<div className="ui secondary pointing menu" style={{padding: "5px"}}>
@@ -27,13 +22,28 @@ class Menu extends React.Component {
 			</div>
 		);
 	}
+
+	renderUserMenu = () => {
+		if(this.props.currUser){
+			return(
+				<Link to="/playlists" className="item">
+					Playlists
+				</Link>
+			);
+		}
+	}
 }
 
-function mapStateToProps(state){
+const mapStateToProps = (state) => {
 	if(state.auth){
 		return {
 			currUser: state.auth.userId
 		};
+	}else{
+		return {
+			currUser: null
+		};
 	}
 }
+
 export default connect(mapStateToProps)(Menu);

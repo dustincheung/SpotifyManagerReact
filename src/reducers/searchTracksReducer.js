@@ -1,3 +1,8 @@
+/*	
+ * 	This file manages/modifies searchTracks (left col of TracksCreate component showing response of spotify api search request) 
+ *  state based on action recieved
+ */
+
 export default (state=[], action) => {
 	switch(action.type){
 		case "INDEX_SEARCHTRACKS":

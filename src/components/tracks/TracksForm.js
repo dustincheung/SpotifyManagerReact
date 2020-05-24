@@ -1,22 +1,25 @@
+/*  
+ *  TracksForm renders redux form that has a field that allows a user to type in search term
+ */
+
 import React from "react";
-import {Field, reduxForm} from "redux-form";//import Field component and reduxForm function
+import {Field, reduxForm} from "redux-form"; //import Field component and reduxForm function
 
 class TracksForm extends React.Component{
-
-	renderError(meta){								//helper function to display errors after input is touched
-		if(meta.touched && meta.error){
-			return(
-				<div className="ui error message">
-					<div className="header">
-						{meta.error}
-					</div>
-				</div>
-			);
-		}
+	
+	render(){
+		return(
+			<form className="ui form error">
+				<Field name="searchTerm" label="Search for Tracks: " component={this.renderInput}/>
+			</form>
+		);
 	}
 
-												//helper function that has formProps (label, input, meta)
-	renderInput = (formProps) => {				//used arrow function to protect this context
+	onChange = (formValues) => {
+		this.props.onChange(formValues); //calls onSubmit that is passed down in props
+	}
+
+	renderInput = (formProps) => {				
 		return(
 			<div className="field">				
 				<p className="lead" style={{paddingBottom: ".1em", fontSize: "1em"}}>
@@ -29,27 +32,19 @@ class TracksForm extends React.Component{
 		); 
 	}
 
-	onChange = (formValues) =>{
-		this.props.onChange(formValues); //calls onSubmit that is passed down in props
-	}
-
-	//handleSubmit is a redux-form method
-	//Field is just a container component we use component prop to actually render what we want to show
-	//the method in component is automatically called with formProps, our callback onSubmit is auto called
-	//with argument formValues which contains the values of the inputs
-	render(){
-		return(
-			<form className="ui form error">
-				<Field name="searchTerm" label="Search for Tracks: " component={this.renderInput}/>
-			</form>
-		);
+	renderError = (meta) => {		
+		if(meta.touched && meta.error){
+			return(
+				<div className="ui error message">
+					<div className="header">
+						{meta.error}
+					</div>
+				</div>
+			);
+		}
 	}
 }
 
-
-//returns empty errors object if no errors, if there are it will add a key value pair to errors obj and return 
-//if a key in the error obj has a key that matches a field name it is auto passed in an argument named formProps.meta
-//that is called in renderInput
 const validate = (formValues) => {
 	const errors ={};
 
@@ -58,7 +53,6 @@ const validate = (formValues) => {
 	}
 	return errors;
 }
-
 
 //connecting form with redux, pass in form name, and validate function to handle input validation
 //hooking up validate

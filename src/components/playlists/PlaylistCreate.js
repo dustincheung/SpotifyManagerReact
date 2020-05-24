@@ -1,15 +1,15 @@
+/*  
+ *  PlaylistCreate renders FormDisplayCard and playlist form to create a new playlist
+ */
+
 import React from "react";
 import {connect} from "react-redux";
 
-import {createPlaylist} from "../../actions";
 import PlaylistForm from "./PlaylistForm";
 import FormDisplayCard from "./FormDisplayCard";
+import {createPlaylist} from "../../actions";
 
 class PlaylistCreate extends React.Component{
-	
-	onSubmit = (formValues) =>{
-		this.props.createPlaylist(formValues); //calls action creator that will make post request
-	}
 
 	render(){
 		return(
@@ -25,6 +25,10 @@ class PlaylistCreate extends React.Component{
         		</div>
       		</div>
 		);
+	}
+
+	onSubmit = (formValues) =>{
+		this.props.createPlaylist(formValues); //calls action creator that will make post request
 	}
 }
 

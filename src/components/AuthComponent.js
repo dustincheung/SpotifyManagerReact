@@ -1,3 +1,8 @@
+/*
+ *	React component that requests express server backend login path.  This will trigger OAuth backend
+ *  flow to begin.  It also determines wheter to show "sign in" or "sign out" based on auth state
+ */
+ 
 import React from "react";
 import {connect} from "react-redux";
 
@@ -18,7 +23,7 @@ class AuthComponent extends React.Component{
 	}
 }
 
-function mapStateToProps(state){
+const mapStateToProps = (state) => {
 	return {auth: state.auth};
 }
 
