@@ -9,6 +9,9 @@ import Spotify from 'spotify-web-api-js';
 
 import hashParams from "../utils/hashParams";
 
+//prod and dev uri
+const uri = process.env.REACT_APP_BACKEND_URI || 'http://localhost:5000';
+
 //************************************************
 //			AUTH STATE ACTION CREATORS
 //************************************************
@@ -18,7 +21,6 @@ import hashParams from "../utils/hashParams";
 // essential for async network requests to backend express server or API requests
 export const getCurrUser = () => {
 	return async (dispatch, getState) => {
-		const uri = process.env.REACT_APP_BACKEND_URI || 'http://localhost:5000';
 		const response = await axios.get(uri + "/api/current_user");
 		const params = hashParams();
 
@@ -191,6 +193,19 @@ export const deleteAddTrack = (id) => {
 // Action creator called when the TracksCreate component's button is clicked confirming the
 // array of addTracks to be added to the overall all track state. Both searchTracks and addTracks
 // must be cleared to ensure that we start clean for the next time tracks wish to be added
-export const clearSearchAddTracks= () => {
+export const clearSearchAddTracks = () => {
 	return {type: "CLEAR_TRACKS", payload: []};  //both reducers catch this type
+}
+
+//************************************************
+//	   COLLABPLAYLISTS STATE ACTION CREATORS
+//************************************************
+
+export const getCollabPlaylists = () => {
+	return async (dispatch, getState) => {
+		const response = await axios.get(uri + "/collabplaylists")
+		console.log("GET COLLAB PLAYLIST RESPONSE");
+		console.log(response);
+		dispatch({type: "GET_COLLAB_PLAYLISTS", payload: response.data})
+	}
 }

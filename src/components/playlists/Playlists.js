@@ -7,12 +7,17 @@ import PlaylistGrid from "./PlaylistGrid";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
-import {getCurrUser, getPlaylists, createPlaylist} from "../../actions";
+import {getCurrUser, getPlaylists, createPlaylist, getCollabPlaylists} from "../../actions";
 
 class Playlists extends React.Component{
 	async componentDidMount(){				//async await is used to ensure access token is set in auth state
 		await this.props.getCurrUser();		//before attempting to use it in spotify api request in getPlaylist
-		this.props.getPlaylists();											
+		
+		if(!this.props.collab){
+			this.props.getPlaylists();
+		}else{
+			this.props.getCollabPlaylists();
+		}										
 	}
 
 	render(){
@@ -23,16 +28,7 @@ class Playlists extends React.Component{
 		return(
 			<div>
   				<div className="ui grid">
-  					<div className="thirteen wide column">
-  						<h1 className="display-5" >
-							Playlists Page
-						</h1>
-    					<div>
-    						<p className="lead" style={{paddingBottom: "1.2em", fontSize: "1.5em"}}>
-    							Hi {this.props.authId}, you can view and manage your playlists here.
-    						</p>
-    					</div>
-  					</div>
+  					{this.renderHeading()}
  					<div className="three wide column">
  						<Link className="ui vertical animated button" style={{float: "right", marginTop: "2.5em"}} to="/playlists/new">
   							<div className="hidden content">
@@ -45,11 +41,55 @@ class Playlists extends React.Component{
  					</div>
 				</div>
   				<div> 
-  					<PlaylistGrid playlists={this.props.playlists}/> 
+  					{this.renderGrid()}
   				</div>
 			</div>
 			
 		);
+	}
+
+	//renders different heading based on if its spotify playlist or collab playlists page
+	renderHeading = () => {
+		if(!this.props.collab){
+			return(
+				<div className="thirteen wide column">
+  					<h1 className="display-5" >
+						Playlists Page
+					</h1>
+    				<div>
+    					<p className="lead" style={{paddingBottom: "1.2em", fontSize: "1.5em"}}>
+    						Hi {this.props.authId}, you can view and manage your playlists here.
+    					</p>
+    				</div>
+  				</div>
+			);
+		}else{
+			return(
+				<div className="thirteen wide column">
+  					<h1 className="display-5" >
+						Collab Playlists Page
+					</h1>
+    				<div>
+    					<p className="lead" style={{paddingBottom: "1.2em", fontSize: "1.5em"}}>
+    						Hi {this.props.authId}, you can collaborate on playlists here!
+    					</p>
+    				</div>
+  				</div>
+			);
+		}		
+	}
+
+	//renders different grid based on if its spotify playlist or collab playlists page
+	renderGrid = () => {
+		if(!this.props.collab){
+			return(
+				<PlaylistGrid playlists={this.props.playlists} collab={false}/>
+			);
+		}else{
+			return(
+				<PlaylistGrid playlists={this.props.collabPlaylists} collab={true}/>
+			);
+		}
 	}
 }
 
@@ -57,7 +97,8 @@ const mapStateToProps = (state) => {
 	if(state.auth){
 		return {
 			authId: state.auth.userId,
-			playlists: state.playlists
+			playlists: state.playlists,
+			collabPlaylists: state.collabPlaylists
 		};	
 	}else{
 		return {
@@ -66,4 +107,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps, {getCurrUser, getPlaylists, createPlaylist})(Playlists);
+export default connect(mapStateToProps, {getCurrUser, getPlaylists, createPlaylist, getCollabPlaylists})(Playlists);

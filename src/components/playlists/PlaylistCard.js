@@ -36,6 +36,19 @@ class PlaylistCard extends React.Component {
 		);
 	}
 
+	//for regular playlists, renders img if available and for collab playlists will render generic img
+	renderImage =() => {
+		if(!this.props.collab && this.props.playlist.images[0]){
+			return(
+				<img src={this.props.playlist.images[0].url} alt=""/>
+			);
+		}
+
+		return(
+			<img src="/musicicon.png" alt=""/>
+		);
+	}
+
 	renderDescription = () => {
 		if(this.props.playlist.description){
 			return(
@@ -53,25 +66,32 @@ class PlaylistCard extends React.Component {
 	}
 
 	renderDelete = () => {
-		if(this.props.currUser === this.props.playlist.owner.id){
+		if(!this.props.collab && this.props.currUser === this.props.playlist.owner.id){
 			return(
 				<button className="ui button" onClick={(event) => this.onDeleteClick(event) } style={{backgroundColor: "white", float: "right"}}>
               		<i className="trash alternate icon"></i>
             	</button>
 			);
-		} 
-	}
-
-	renderImage =() => {
-		if(this.props.playlist.images[0]){
+		}else if(this.props.collab && this.checkCollab(this.props.currUser)){
 			return(
-				<img src={this.props.playlist.images[0].url} alt=""/>
+				<button className="ui button" onClick={(event) => this.onDeleteClick(event) } style={{backgroundColor: "white", float: "right"}}>
+              		<i className="trash alternate icon"></i>
+            	</button>
 			);
 		}
+	}
 
-		return(
-			<img src="/musicicon.png" alt=""/>
-		);
+	//checks collaborators array in collab playlist for ownership
+	checkCollab = (currUser) => {
+		let collaborators = this.props.playlist.collaborators;
+
+		for(let i = 0; i < collaborators.length; i++){
+			if(collaborators[i] === currUser){
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	onDeleteClick = (event) => {

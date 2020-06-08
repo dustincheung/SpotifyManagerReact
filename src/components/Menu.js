@@ -26,9 +26,14 @@ class Menu extends React.Component {
 	renderUserMenu = () => {
 		if(this.props.currUser){
 			return(
-				<Link to="/playlists" className="item">
-					Playlists
-				</Link>
+				<div>
+					<Link to="/playlists" className="item" style={{float: "left"}}>
+						Playlists
+					</Link>
+					<Link to="/collabplaylists" className="item">
+						Collaborate
+					</Link>
+				</div>
 			);
 		}
 	}

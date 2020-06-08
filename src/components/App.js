@@ -22,11 +22,12 @@ const App = () => {
 					<Menu/>
 					<Switch>
 						<Route path="/" exact component={Landing}/>
-						<Route path="/playlists" exact component={Playlists}/>
-						<Route path="/playlists/new" excact component={PlaylistCreate}/>
+						<Route path="/playlists" exact component={(props) => <Playlists {...props} collab={false} />}/>
+						<Route path="/playlists/new" exact component={PlaylistCreate}/>
 						<Route path="/playlists/:id" exact component={PlaylistShow}/>
 						<Route path="/playlists/:id/edit" exact component={PlaylistEdit}/>
 						<Route path="/playlists/:id/tracks/new" exact component={TracksCreate}/>
+						<Route path="/collabplaylists" exact component={(props) => <Playlists {...props} collab={true} />}/>
 					</Switch>
 				</div>
 			</Router>
