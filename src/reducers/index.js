@@ -12,6 +12,7 @@ import tracksReducer from "./tracksReducer";
 import searchTracksReducer from "./searchTracksReducer";
 import addTracksReducer from "./addTracksReducer";
 import collabPlaylistsReducer from "./collabPlaylistsReducer";
+import collabModeReducer from "./collabModeReducer";
 
 export default combineReducers({
 	auth: authReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
 	form: formReducer,					//formsReducer is imported from redux-form
 	searchTracks: searchTracksReducer,
 	addTracks: addTracksReducer,
-	collabPlaylists: collabPlaylistsReducer
+	collabPlaylists: collabPlaylistsReducer,
+	collabMode: collabModeReducer
 });

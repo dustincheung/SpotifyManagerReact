@@ -7,7 +7,7 @@ import PlaylistGrid from "./PlaylistGrid";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
-import {getCurrUser, getPlaylists, createPlaylist, getCollabPlaylists} from "../../actions";
+import {getCurrUser, getPlaylists, createPlaylist, getCollabPlaylists, startCollabMode, stopCollabMode} from "../../actions";
 
 class Playlists extends React.Component{
 	async componentDidMount(){				//async await is used to ensure access token is set in auth state
@@ -17,10 +17,20 @@ class Playlists extends React.Component{
 			this.props.getPlaylists();
 		}else{
 			this.props.getCollabPlaylists();
-		}										
+		}		
+
+		if(window.location.pathname === "/playlists"){
+			this.props.stopCollabMode();
+		}
+
+		if(window.location.pathname === "/collabplaylists"){
+			this.props.startCollabMode();
+		}						
 	}
 
 	render(){
+
+
 		if(!this.props.playlists){
 			return <div>LOADING</div>;
 		}
@@ -107,4 +117,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps, {getCurrUser, getPlaylists, createPlaylist, getCollabPlaylists})(Playlists);
+export default connect(mapStateToProps, {getCurrUser, getPlaylists, createPlaylist, getCollabPlaylists, startCollabMode, stopCollabMode})(Playlists);

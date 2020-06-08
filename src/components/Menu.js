@@ -27,7 +27,7 @@ class Menu extends React.Component {
 		if(this.props.currUser){
 			return(
 				<div>
-					<Link to="/playlists" className="item" style={{float: "left"}}>
+					<Link to="/playlists"  className="item" style={{float: "left"}}>
 						Playlists
 					</Link>
 					<Link to="/collabplaylists" className="item">

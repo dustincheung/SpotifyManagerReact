@@ -201,6 +201,14 @@ export const clearSearchAddTracks = () => {
 //	   COLLABPLAYLISTS STATE ACTION CREATORS
 //************************************************
 
+export const startCollabMode = () => {
+	return {type: "COLLAB_START", payload: true};
+}
+
+export const stopCollabMode = () => {
+	return {type: "COLLAB_STOP", payload: false};
+}
+
 export const getCollabPlaylists = () => {
 	return async (dispatch, getState) => {
 		const response = await axios.get(uri + "/collabplaylists")
