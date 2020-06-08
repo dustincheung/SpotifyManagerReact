@@ -12,7 +12,7 @@ class PlaylistGrid extends React.Component{
     return (
       <div className="ui four cards">
        {playlists.map((playlist) =>
-          <PlaylistCard playlist={playlist} key={playlist.id} collab={this.props.collab}/>
+          <PlaylistCard playlist={playlist} key={playlist.id}/>
         )} 
       </div>
     );

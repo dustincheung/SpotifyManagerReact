@@ -38,7 +38,7 @@ class PlaylistCard extends React.Component {
 
 	//for regular playlists, renders img if available and for collab playlists will render generic img
 	renderImage =() => {
-		if(!this.props.collab && this.props.playlist.images[0]){
+		if(!this.props.collabMode && this.props.playlist.images[0]){
 			return(
 				<img src={this.props.playlist.images[0].url} alt=""/>
 			);
@@ -66,13 +66,13 @@ class PlaylistCard extends React.Component {
 	}
 
 	renderDelete = () => {
-		if(!this.props.collab && this.props.currUser === this.props.playlist.owner.id){
+		if(!this.props.collabMode && this.props.currUser === this.props.playlist.owner.id){
 			return(
 				<button className="ui button" onClick={(event) => this.onDeleteClick(event) } style={{backgroundColor: "white", float: "right"}}>
               		<i className="trash alternate icon"></i>
             	</button>
 			);
-		}else if(this.props.collab && this.checkCollab(this.props.currUser)){
+		}else if(this.props.collabMode && this.checkCollab(this.props.currUser)){
 			return(
 				<button className="ui button" onClick={(event) => this.onDeleteClick(event) } style={{backgroundColor: "white", float: "right"}}>
               		<i className="trash alternate icon"></i>
@@ -102,7 +102,8 @@ class PlaylistCard extends React.Component {
 
 const mapStateToProps = (state) => {
 	return{
-		currUser: state.auth.userId
+		currUser: state.auth.userId,
+		collabMode: state.collabMode
 	};
 }
 

@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 
 import AuthComponent from "./AuthComponent";
+import {startCollabMode, stopCollabMode} from "../actions";
 
 class Menu extends React.Component {
 	render(){
@@ -27,10 +28,10 @@ class Menu extends React.Component {
 		if(this.props.currUser){
 			return(
 				<div>
-					<Link to="/playlists"  className="item" style={{float: "left"}}>
+					<Link to="/playlists" onClick={this.props.stopCollabMode} className="item" style={{float: "left"}}>
 						Playlists
 					</Link>
-					<Link to="/collabplaylists" className="item">
+					<Link to="/collabplaylists" onClick={this.props.startCollabMode} className="item">
 						Collaborate
 					</Link>
 				</div>
@@ -51,4 +52,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(Menu);
+export default connect(mapStateToProps, {startCollabMode, stopCollabMode})(Menu);

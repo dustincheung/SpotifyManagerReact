@@ -10,27 +10,25 @@ import {Link} from "react-router-dom";
 import {getCurrUser, getPlaylists, createPlaylist, getCollabPlaylists, startCollabMode, stopCollabMode} from "../../actions";
 
 class Playlists extends React.Component{
-	async componentDidMount(){				//async await is used to ensure access token is set in auth state
-		await this.props.getCurrUser();		//before attempting to use it in spotify api request in getPlaylist
-		
-		if(!this.props.collab){
-			this.props.getPlaylists();
-		}else{
-			this.props.getCollabPlaylists();
-		}		
-
+	async componentDidMount(){				
+		//handles situation when menu buttons are not used to navigate
 		if(window.location.pathname === "/playlists"){
 			this.props.stopCollabMode();
 		}
 
 		if(window.location.pathname === "/collabplaylists"){
 			this.props.startCollabMode();
-		}						
+		}	
+
+		//async await is used to ensure access token is set in auth state
+		//before attempting to use it in spotify api request in getPlaylist
+		await this.props.getCurrUser();		
+
+		this.props.getPlaylists();
+		this.props.getCollabPlaylists();						
 	}
 
 	render(){
-
-
 		if(!this.props.playlists){
 			return <div>LOADING</div>;
 		}
@@ -60,7 +58,7 @@ class Playlists extends React.Component{
 
 	//renders different heading based on if its spotify playlist or collab playlists page
 	renderHeading = () => {
-		if(!this.props.collab){
+		if(!this.props.collabMode){
 			return(
 				<div className="thirteen wide column">
   					<h1 className="display-5" >
@@ -91,13 +89,13 @@ class Playlists extends React.Component{
 
 	//renders different grid based on if its spotify playlist or collab playlists page
 	renderGrid = () => {
-		if(!this.props.collab){
+		if(!this.props.collabMode){
 			return(
-				<PlaylistGrid playlists={this.props.playlists} collab={false}/>
+				<PlaylistGrid playlists={this.props.playlists}/>
 			);
 		}else{
 			return(
-				<PlaylistGrid playlists={this.props.collabPlaylists} collab={true}/>
+				<PlaylistGrid playlists={this.props.collabPlaylists}/>
 			);
 		}
 	}
@@ -108,7 +106,8 @@ const mapStateToProps = (state) => {
 		return {
 			authId: state.auth.userId,
 			playlists: state.playlists,
-			collabPlaylists: state.collabPlaylists
+			collabPlaylists: state.collabPlaylists,
+			collabMode: state.collabMode
 		};	
 	}else{
 		return {
