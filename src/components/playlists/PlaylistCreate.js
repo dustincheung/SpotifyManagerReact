@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 
 import PlaylistForm from "./PlaylistForm";
 import FormDisplayCard from "./FormDisplayCard";
-import {createPlaylist} from "../../actions";
+import {createPlaylist, createCollabPlaylist} from "../../actions";
 
 class PlaylistCreate extends React.Component{
 
@@ -28,8 +28,19 @@ class PlaylistCreate extends React.Component{
 	}
 
 	onSubmit = (formValues) =>{
-		this.props.createPlaylist(formValues); //calls action creator that will make post request
+		if(!this.props.collabMode){
+			this.props.createPlaylist(formValues); 
+		}else{
+			this.props.createCollabPlaylist(formValues); 
+		}
+		
 	}
 }
 
-export default connect(null,{createPlaylist})(PlaylistCreate);
+const mapStateToProps = (state) => {
+	return{
+		collabMode: state.collabMode
+	};
+}
+
+export default connect(mapStateToProps,{createPlaylist, createCollabPlaylist})(PlaylistCreate);

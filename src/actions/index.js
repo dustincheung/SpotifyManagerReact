@@ -159,7 +159,7 @@ export const getSearchTracks = (formValues) => {
 		spotifyWebApi.setAccessToken(getState().auth.accessToken);
 		const response = await spotifyWebApi.search(formValues.searchTerm, ['track']);	
 
-		dispatch({type: "INDEX_SEARCHTRACKS", payload: response.tracks.items})
+		dispatch({type: "INDEX_SEARCHTRACKS", payload: response.tracks.items});
 	}
 }
 
@@ -212,8 +212,23 @@ export const stopCollabMode = () => {
 export const getCollabPlaylists = () => {
 	return async (dispatch, getState) => {
 		const response = await axios.get(uri + "/collabplaylists")
-		console.log("GET COLLAB PLAYLIST RESPONSE");
-		console.log(response);
-		dispatch({type: "GET_COLLAB_PLAYLISTS", payload: response.data})
+		dispatch({type: "INDEX_COLLAB_PLAYLISTS", payload: response.data});
+	}
+}
+
+export const createCollabPlaylist = (formValues) => {
+	return async (dispatch, getState) => {
+		//packages up formvalues and userId into a body obj and passes it with post req
+		const body = {
+			name: formValues.name,
+			description: formValues.description,
+			collaborators: [getState().auth.userId]
+		}
+
+		const response = await axios.post(uri + "/collabplaylists", body);
+		//takes response of request and updates redux store
+		dispatch({type: "CREATE_COLLAB_PLAYLIST", payload: response.data});
+
+		history.push("/collabplaylists");
 	}
 }

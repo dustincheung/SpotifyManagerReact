@@ -12,6 +12,7 @@ import {getCurrUser, getPlaylists, createPlaylist, getCollabPlaylists, startColl
 class Playlists extends React.Component{
 	async componentDidMount(){				
 		//handles situation when menu buttons are not used to navigate
+		//determines whether to follow regular playlist logic or collab playlist logic
 		if(window.location.pathname === "/playlists"){
 			this.props.stopCollabMode();
 		}
@@ -38,7 +39,7 @@ class Playlists extends React.Component{
   				<div className="ui grid">
   					{this.renderHeading()}
  					<div className="three wide column">
- 						<Link className="ui vertical animated button" style={{float: "right", marginTop: "2.5em"}} to="/playlists/new">
+ 						<Link className="ui vertical animated button" to="/playlists/new" style={{float: "right", marginTop: "2.5em"}}>
   							<div className="hidden content">
   								<i className="plus icon"></i>
   							</div>
