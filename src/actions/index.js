@@ -289,4 +289,15 @@ export const createCollabPlaylist = (formValues) => {
 	}
 }
 
+export const deleteCollabPlaylist = (id) => {
+	return async (dispatch, getState) => {
+		//delete request with id passed as param in url
+		const response = await axios.delete(uri + "/collabplaylists/" + id + "/delete");
+
+		dispatch({type: "DELETE_COLLAB_PLAYLIST", payload: id});
+
+		history.push("/collabplaylists")
+	}
+}
+
 

@@ -5,7 +5,7 @@
 import React from "react";
 import {connect} from "react-redux";
 
-import {deletePlaylist} from "../../actions";
+import {deletePlaylist, deleteCollabPlaylist} from "../../actions";
 import history from "../../history";
 
 class PlaylistCard extends React.Component {
@@ -93,10 +93,8 @@ class PlaylistCard extends React.Component {
 	checkCollab = (currUser) => {
 		let collaborators = this.props.playlist.collaborators;
 
-		for(let i = 0; i < collaborators.length; i++){
-			if(collaborators[i] === currUser){
-				return true;
-			}
+		if(collaborators[0] === currUser){
+			return true;
 		}
 
 		return false;
@@ -104,7 +102,12 @@ class PlaylistCard extends React.Component {
 
 	onDeleteClick = (event) => {
 		event.stopPropagation();
-		this.props.deletePlaylist(this.props.playlist.id)
+		if(!this.props.collabMode){
+			this.props.deletePlaylist(this.props.playlist.id);
+		}else{
+			this.props.deleteCollabPlaylist(this.props.playlist._id);
+		}
+		
 	}
 };
 
@@ -115,4 +118,4 @@ const mapStateToProps = (state) => {
 	};
 }
 
-export default connect(mapStateToProps,{deletePlaylist})(PlaylistCard);
+export default connect(mapStateToProps,{deletePlaylist, deleteCollabPlaylist})(PlaylistCard);
