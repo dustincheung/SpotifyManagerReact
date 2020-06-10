@@ -13,14 +13,16 @@ const Landing = () => {
 		<div>
 			<h1 className="display-4" style={{fontSize: "7em", textAlign: "center", marginTop: "1.5em"}}>SpotifyManager</h1>
     		<p className="lead" style={{fontSize: "1.5em", textAlign: "center"}}>A place to manage, share, and collaborate on your playlists.</p>
-			<a className="ui vertical animated button" href={loginPath} style={{left: "33em"}}> 
-				<div className="hidden content">
-  					right this way!
-  				</div>
-  				<div className="visible content">
-    				sign into spotify 
-  				</div>
-			</a>
+			<div style={{textAlign: "center"}}>
+				<a className="ui vertical animated button" href={loginPath}> 
+					<div className="hidden content">
+  						right this way!
+  					</div>
+  					<div className="visible content">
+    					sign into spotify 
+  					</div>
+				</a>
+			</div>
 		</div>	
 	);
 }

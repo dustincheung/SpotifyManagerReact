@@ -22,12 +22,17 @@ const App = () => {
 					<Menu/>
 					<Switch>
 						<Route path="/" exact component={Landing}/>
+						
 						<Route path="/playlists" exact component={Playlists}/>
 						<Route path="/playlists/new" exact component={PlaylistCreate}/>
 						<Route path="/playlists/:id" exact component={PlaylistShow}/>
 						<Route path="/playlists/:id/edit" exact component={PlaylistEdit}/>
 						<Route path="/playlists/:id/tracks/new" exact component={TracksCreate}/>
+
 						<Route path="/collabplaylists" exact component={Playlists}/>
+						<Route path="/collabplaylists/:id" exact component={PlaylistShow}/>
+						<Route path="/collabplaylists/:id/edit" exact component={PlaylistEdit}/>
+						<Route path="/collabplaylists/:id/tracks/new" exact component={TracksCreate}/>
 					</Switch>
 				</div>
 			</Router>

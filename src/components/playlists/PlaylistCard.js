@@ -18,7 +18,7 @@ class PlaylistCard extends React.Component {
 		}
 
 		return(
-			<a className="ui raised card" onClick={() => history.push("/playlists/" + this.props.playlist.id)}>
+			<a className="ui raised card" onClick={this.handleClick}>
        	  		<div className="image">
        	  			{this.renderImage()}
           		</div>
@@ -36,8 +36,16 @@ class PlaylistCard extends React.Component {
 		);
 	}
 
+	handleClick = () => {
+		if(!this.props.collabMode){
+			history.push("/playlists/" + this.props.playlist.id);
+		}else{
+			history.push("/collabplaylists/" + this.props.playlist._id);
+		}
+	}
+
 	//for regular playlists, renders img if available and for collab playlists will render generic img
-	renderImage =() => {
+	renderImage = () => {
 		if(!this.props.collabMode && this.props.playlist.images[0]){
 			return(
 				<img src={this.props.playlist.images[0].url} alt=""/>

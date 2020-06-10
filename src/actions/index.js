@@ -103,29 +103,83 @@ export const updatePlaylist = (id, formValues) => {
 // Indexes tracks found in response to the tracks state
 export const getTracks = (playlist) => {
 	return async (dispatch, getState) => {
-		const response = await axios.get(playlist.tracks.href, 
-		{
-			headers: {
-				Authorization: "Bearer " + getState().auth.accessToken
-			}
-		});
+		
+		if(!getState().collabMode){
+			const response = await axios.get(playlist.tracks.href, 
+				{
+					headers: {
+						Authorization: "Bearer " + getState().auth.accessToken
+				}
+			});
 
-		dispatch({type: "INDEX_TRACKS", payload: response.data.items});
+			dispatch({type: "INDEX_TRACKS", payload: response.data.items});
+
+		}else{
+			const response = await axios.get(uri + "/collabplaylists/" + playlist._id + "/tracks");
+
+			dispatch({type: "INDEX_TRACKS", payload: response.data});
+		}
+		
 	};
 };
 
 // Makes a spotify api request passing in the playlist id and an array of track uris (uniform resource identifier)
-export const createTracks = (trackUris, playlistId) => {
+export const createTracks = (addTracks, playlistId) => {
 	return async (dispatch, getState) => {
-		const spotifyWebApi = new Spotify();
-		spotifyWebApi.setAccessToken(getState().auth.accessToken);
-		await spotifyWebApi.addTracksToPlaylist(playlistId, trackUris);
+		
+		if(!getState().collabMode){
+			//need to pull an array of uri's out of the array of track objects b/c that is what spotify api requires
+			const trackUris = getUriArray(addTracks);
 
-		// no dispatch b/c there is no purpose in adding the tracks to our react state, as soon  
-		// as we redirect to playlists show page it will grab tracks through spotify api
+			const spotifyWebApi = new Spotify();
+			spotifyWebApi.setAccessToken(getState().auth.accessToken);
+			await spotifyWebApi.addTracksToPlaylist(playlistId, trackUris);
 
-		history.push("/playlists/" + playlistId);
+			// no dispatch b/c there is no purpose in adding the tracks to our react state, as soon  
+			// as we redirect to playlists show page it will grab tracks through spotify api
+			history.push("/playlists/" + playlistId);
+		}else{
+			const collabTracks = getCollabTracksArray(addTracks);
+
+			await axios.post(uri + "/collabplaylists/" + playlistId + "/tracks", collabTracks);
+
+			history.push("/collabplaylists/" + playlistId);
+		}
 	}
+}
+
+// Helper method to pull out array of track uri's which is needed for spotify api req
+const getUriArray = (tracksArray) => {
+	let uriArray = [];
+	
+	for(let i = 0; i < tracksArray.length; i++){
+		uriArray.push(tracksArray[i].uri);
+	}
+
+	return uriArray;
+}
+
+// Helper method that creates tracks array in the exact same format as spotify which will be added
+// to the tracks attrb of our CollabPlaylist schema so that all track components data logic remains the same
+const getCollabTracksArray = (tracksArray) => {
+	let collabTracks = [];
+
+	for(let i = 0; i < tracksArray.length; i++){
+		let collabTrack = {
+			track: {
+				name: tracksArray[i].name,
+				uri: tracksArray[i].uri,
+				artists: [
+					{
+						name: tracksArray[i].artists[0].name
+					}
+				]
+			}
+		}
+
+		collabTracks.push(collabTrack);
+	}
+	return collabTracks;
 }
 
 // Makes a spotify api request to remove tracks given the playlist id and an array of track uri's that you 
@@ -232,3 +286,5 @@ export const createCollabPlaylist = (formValues) => {
 		history.push("/collabplaylists");
 	}
 }
+
+

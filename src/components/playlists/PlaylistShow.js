@@ -23,8 +23,16 @@ class PlaylistShow extends React.Component{
     }
 
     let tracks = this.props.tracks;
-    let tracksCreatePath = this.props.playlist.id + "/tracks/new";
-    let playlistEditPath = this.props.playlist.id + "/edit";
+    let tracksCreatePath;
+    let playlistEditPath ;
+    
+    if(!this.props.collabMode){
+      tracksCreatePath = this.props.playlist.id + "/tracks/new";
+      playlistEditPath = this.props.playlist.id + "/edit";
+    }else{
+      tracksCreatePath = this.props.playlist._id + "/tracks/new";
+      playlistEditPath = this.props.playlist._id + "/edit";
+    }
 
 		return(
       <div className="ui grid">
@@ -46,14 +54,14 @@ class PlaylistShow extends React.Component{
           </div>
         </div>
         <div className="eleven wide column">
-          <TracksList tracks={tracks} type="SHOW" playlistId={this.props.playlist.id}/>
+          <TracksList tracks={tracks} type="SHOW" playlistId={this.props.playlist.id}/>  
         </div>
       </div>
 		);
 	}
 }
 
-const search = (idKey, array) => {
+const searchForPlaylist = (idKey, array) => {
 	for(var i = 0; i < array.length; i++){
 		if(array[i].id === idKey){
 			return array[i];
@@ -61,11 +69,27 @@ const search = (idKey, array) => {
 	}
 }
 
+const searchForCollabPlaylist = (idKey, array) => {
+  for(var i = 0; i < array.length; i++){
+    if(array[i]._id === idKey){
+      return array[i];
+    }
+  }
+}
+
 const mapStateToProps = (state, ownProps) => {
-	const currPlaylist = search(ownProps.match.params.id, state.playlists);
+  let currPlaylist;
+
+  if(!state.collabMode){
+    currPlaylist = searchForPlaylist(ownProps.match.params.id, state.playlists);
+  }else{
+    currPlaylist = searchForCollabPlaylist(ownProps.match.params.id, state.collabPlaylists);
+  }
+	
 	return {
     playlist: currPlaylist,
-    tracks: state.tracks
+    tracks: state.tracks,
+    collabMode: state.collabMode
   }
 }
 

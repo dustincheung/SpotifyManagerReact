@@ -63,19 +63,9 @@ class TracksCreate extends React.Component{
 	}
 
 	onButtonClick = () => {
-		//need to pull an array of uri's out of the array of track objects b/c that is what spotify api requires
-		const trackUriArrays = this.getUriArray(this.props.addTracks);
-		this.props.createTracks(trackUriArrays, this.props.playlistId);
+		
+		this.props.createTracks(this.props.addTracks, this.props.playlistId);
 		this.props.clearSearchAddTracks();	//ensures that we clear searchTracks and addTracks before a new search
-	}
-
-	getUriArray = (array) => {
-		let uriArray = [];
-		for(var i =0; i < array.length; i++){
-			uriArray.push(array[i].uri);
-		}
-
-		return uriArray;
 	}
 }
 

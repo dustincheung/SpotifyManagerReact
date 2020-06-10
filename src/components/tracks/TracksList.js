@@ -25,7 +25,8 @@ class TracksList extends React.Component{
 		if(this.props.tracks.length !== 0){
 			return(
 				this.props.tracks.map((track) =>
-                	<div className="item" key={track.track.id}>
+
+                	<div className="item" key={this.props.collabMode ? track._id : track.track.id}>
                   		<div className="content">
                     		<div className="header">{track.track.name}</div>
                     		By {track.track.artists[0].name}
@@ -123,7 +124,8 @@ class TracksList extends React.Component{
 const mapStateToProps = (state, ownProps) => {
 	return { 
 		searchTracks: state.searchTracks,
-		addTracks: state.addTracks
+		addTracks: state.addTracks,
+		collabMode: state.collabMode
 	};
 }
 

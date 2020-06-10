@@ -3,6 +3,7 @@
  */
 
 import React from "react";
+import {connect} from "react-redux";
 
 import PlaylistCard from "./PlaylistCard";
 
@@ -12,11 +13,17 @@ class PlaylistGrid extends React.Component{
     return (
       <div className="ui four cards">
        {playlists.map((playlist) =>
-          <PlaylistCard playlist={playlist} key={playlist.id}/>
+          <PlaylistCard playlist={playlist} key={this.props.collabMode ? playlist._id : playlist.id}/>
         )} 
       </div>
     );
   }
 }
 
-export default PlaylistGrid;    
+const mapStateToProps = (state) => {
+  return{
+    collabMode: state.collabMode
+  };
+}
+
+export default connect(mapStateToProps)(PlaylistGrid);    
