@@ -139,9 +139,11 @@ export const createTracks = (addTracks, playlistId) => {
 			// as we redirect to playlists show page it will grab tracks through spotify api
 			history.push("/playlists/" + playlistId);
 		}else{
+			//pass tracks to be added to collabPlaylist and also the collabortator id
+			const collaborator = getState().auth.userId;
 			const collabTracks = getCollabTracksArray(addTracks);
 
-			await axios.post(uri + "/collabplaylists/" + playlistId + "/tracks", collabTracks);
+			await axios.post(uri + "/collabplaylists/" + playlistId + "/tracks", {collaborator, collabTracks});
 
 			history.push("/collabplaylists/" + playlistId);
 		}
