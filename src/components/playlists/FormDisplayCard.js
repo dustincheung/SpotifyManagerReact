@@ -29,7 +29,7 @@ class FormDisplayCard extends React.Component {
 	}
 
 	renderImage = () => {
-		if(this.props.playlist && this.props.playlist.images.length !== 0){
+		if(!this.props.collabMode && this.props.playlist && this.props.playlist.images.length !== 0){
 			return(
 				<img src={this.props.playlist.images[0].url} alt=""/>
 			);
@@ -59,7 +59,8 @@ class FormDisplayCard extends React.Component {
 
 const mapStateToProps = (state) => {
 	return{
-		form: state.form.PlaylistForm
+		form: state.form.PlaylistForm,
+		collabMode: state.collabMode
 	};
 }
 

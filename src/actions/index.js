@@ -289,6 +289,15 @@ export const createCollabPlaylist = (formValues) => {
 	}
 }
 
+export const updateCollabPlaylist = (id, formValues) => {
+	return async (dispatch, getState) => {
+		const response = await axios.patch(uri + "/collabplaylists/" + id, formValues);
+
+		history.push("/collabplaylists");
+	}
+
+}
+
 export const deleteCollabPlaylist = (id) => {
 	return async (dispatch, getState) => {
 		//delete request with id passed as param in url

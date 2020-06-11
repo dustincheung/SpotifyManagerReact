@@ -39,18 +39,15 @@ class PlaylistShow extends React.Component{
         <div className="five wide column">
           <PlaylistCard playlist={this.props.playlist}/>
           <div className="ui vertical labeled icon buttons" style={{width: "90%"}}>
-            <Link className="ui button" to={playlistEditPath}>
-              <i className="edit icon"></i>
-              Edit Info
-            </Link>
             <Link className="ui button" to={tracksCreatePath}>
               <i className="plus icon"></i>
               Add Tracks
             </Link>
-           <Link className="ui button">
+            <Link className="ui button" to={playlistEditPath}>
               <i className="edit icon"></i>
-              Share
+              Edit Info
             </Link>
+            {this.renderShareButton()}
           </div>
         </div>
         <div className="eleven wide column">
@@ -59,20 +56,15 @@ class PlaylistShow extends React.Component{
       </div>
 		);
 	}
-}
 
-const searchForPlaylist = (idKey, array) => {
-	for(var i = 0; i < array.length; i++){
-		if(array[i].id === idKey){
-			return array[i];
-		}
-	}
-}
-
-const searchForCollabPlaylist = (idKey, array) => {
-  for(var i = 0; i < array.length; i++){
-    if(array[i]._id === idKey){
-      return array[i];
+  renderShareButton = () => {
+    if(!this.props.collabMode){
+      return(
+        <Link className="ui button">
+          <i className="edit icon"></i>
+          Share
+        </Link> 
+      );
     }
   }
 }
@@ -90,6 +82,22 @@ const mapStateToProps = (state, ownProps) => {
     playlist: currPlaylist,
     tracks: state.tracks,
     collabMode: state.collabMode
+  }
+}
+
+const searchForPlaylist = (idKey, array) => {
+  for(var i = 0; i < array.length; i++){
+    if(array[i].id === idKey){
+      return array[i];
+    }
+  }
+}
+
+const searchForCollabPlaylist = (idKey, array) => {
+  for(var i = 0; i < array.length; i++){
+    if(array[i]._id === idKey){
+      return array[i];
+    }
   }
 }
 
