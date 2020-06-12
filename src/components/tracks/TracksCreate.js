@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 
 import TracksForm from "./TracksForm";
 import TracksList from "./TracksList";
-import {getSearchTracks, createTracks, clearSearchAddTracks} from "../../actions";
+import {getSearchTracks, createTracks, createCollabTracks, clearSearchAddTracks} from "../../actions";
 
 class TracksCreate extends React.Component{
 	
@@ -63,8 +63,12 @@ class TracksCreate extends React.Component{
 	}
 
 	onButtonClick = () => {
+		if(!this.props.collabMode){
+			this.props.createTracks(this.props.addTracks, this.props.playlistId);
+		}else{
+			this.props.createCollabTracks(this.props.addTracks, this.props.playlistId);
+		}
 		
-		this.props.createTracks(this.props.addTracks, this.props.playlistId);
 		this.props.clearSearchAddTracks();	//ensures that we clear searchTracks and addTracks before a new search
 	}
 }
@@ -73,8 +77,9 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		playlistId: ownProps.match.params.id,	//current playlist (that is gettin tracks added to) pulled from url path
 		searchTracks: state.searchTracks,		//tracks found from spotify api search request
-		addTracks: state.addTracks              //tracks that wish to be added by the user
+		addTracks: state.addTracks,             //tracks that wish to be added by the user
+		collabMode: state.collabMode
 	};
 }
 
-export default connect(mapStateToProps, {getSearchTracks, createTracks, clearSearchAddTracks})(TracksCreate);
+export default connect(mapStateToProps, {getSearchTracks, createTracks, createCollabTracks, clearSearchAddTracks})(TracksCreate);

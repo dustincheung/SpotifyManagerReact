@@ -25,8 +25,8 @@ class Playlists extends React.Component{
 		//before attempting to use it in spotify api request in getPlaylist
 		await this.props.getCurrUser();		
 
-		this.props.getPlaylists();
-		this.props.getCollabPlaylists();						
+		await this.props.getPlaylists();
+		await this.props.getCollabPlaylists();						
 	}
 
 	render(){

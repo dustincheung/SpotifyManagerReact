@@ -43,20 +43,6 @@ export const getCurrUser = () => {
 //			PLAYLISTS STATE ACTION CREATORS
 //************************************************
 
-// Makes request to spotify api to create a playlist using form values from redux form (form state)
-// Dispatches action that will add the new playlist to playlists state
-export const createPlaylist = (formValues) => {
-	return async (dispatch, getState) => {
-		const spotifyWebApi = new Spotify();
-		spotifyWebApi.setAccessToken(getState().auth.accessToken);
-		const response = await spotifyWebApi.createPlaylist(getState().auth.userId, formValues);
-
-		dispatch({type: "CREATE_PLAYLIST", payload: response});
-
-		history.push("/playlists");
-	}
-};
-
 // Makes a request to spotify api to get all playlists from a user
 // Dispatches action that will change playlists state to the playlists from the response of the spotify api
 export const getPlaylists = () => {
@@ -69,6 +55,25 @@ export const getPlaylists = () => {
 
 		history.push("/playlists"); //redirect to index page ONLY after playlists state has been set
 	};
+};
+
+// Makes request to spotify api to create a playlist using form values from redux form (form state)
+// Dispatches action that will add the new playlist to playlists state
+export const createPlaylist = (formValues) => {
+	return async (dispatch, getState) => {
+		const spotifyWebApi = new Spotify();
+		spotifyWebApi.setAccessToken(getState().auth.accessToken);
+		const response = await spotifyWebApi.createPlaylist(getState().auth.userId, formValues);
+
+		dispatch({type: "CREATE_PLAYLIST", payload: response});
+
+		//for saving a collabPlaylist (creating spotify playlist and adding tracks) this ensures we
+		//do not redirect to /playlists (collabMode = false) before adding tracks to that playlist
+		if(!getState().collabMode){
+			history.push("/playlists");
+		}
+		
+	}
 };
 
 // Makes a request to spotify api to unfollow a playist given the playlist id
@@ -124,41 +129,71 @@ export const getTracks = (playlist) => {
 };
 
 // Makes a spotify api request passing in the playlist id and an array of track uris (uniform resource identifier)
-export const createTracks = (addTracks, playlistId) => {
+export const createTracks = (tracks, playlistId) => {
 	return async (dispatch, getState) => {
-		
+		//need to pull an array of uri's out of the array of track objects b/c that is what spotify api requires
+		let trackUris;
+
 		if(!getState().collabMode){
-			//need to pull an array of uri's out of the array of track objects b/c that is what spotify api requires
-			const trackUris = getUriArray(addTracks);
+			//adds tracks from addTracks state to a spotify playlist
+			trackUris = getUrisAddTracks(tracks);
+		}else{
+			//add tracks from track state when "saving" a collabPlaylist
+			trackUris = getUrisTracks(tracks);
+		}
+		
+		const spotifyWebApi = new Spotify();
+		spotifyWebApi.setAccessToken(getState().auth.accessToken);
+		console.log("playlistId: " + playlistId);
+		console.log("trackUris: " + trackUris);
+		await spotifyWebApi.addTracksToPlaylist(playlistId, trackUris);
 
-			const spotifyWebApi = new Spotify();
-			spotifyWebApi.setAccessToken(getState().auth.accessToken);
-			await spotifyWebApi.addTracksToPlaylist(playlistId, trackUris);
-
-			// no dispatch b/c there is no purpose in adding the tracks to our react state, as soon  
-			// as we redirect to playlists show page it will grab tracks through spotify api
+		// no dispatch b/c as soon as we redirect to playlists show page it will grab tracks through spotify api
+		// if add tracks in reg mode redirect to show, else you are saving a collabPlaylist so redirect to index
+		if(!getState().collabMode){
 			history.push("/playlists/" + playlistId);
 		}else{
-			//pass tracks to be added to collabPlaylist and also the collabortator id
-			const collaborator = getState().auth.userId;
-			const collabTracks = getCollabTracksArray(addTracks);
-
-			await axios.post(uri + "/collabplaylists/" + playlistId + "/tracks", {collaborator, collabTracks});
-
-			history.push("/collabplaylists/" + playlistId);
+			history.push("/playlists");
 		}
+		
 	}
 }
 
-// Helper method to pull out array of track uri's which is needed for spotify api req
-const getUriArray = (tracksArray) => {
+// Helper method to pull out array of track uri's from addTracks state (used when adding tracks to spotify playlist)
+const getUrisAddTracks = (addTracks) => {
 	let uriArray = [];
 	
-	for(let i = 0; i < tracksArray.length; i++){
-		uriArray.push(tracksArray[i].uri);
+	for(let i = 0; i < addTracks.length; i++){
+		uriArray.push(addTracks[i].uri);
 	}
 
 	return uriArray;
+}
+
+// Helper method to pull out array of track uri's from tracks state (used in saving collabPlayist and its tracks)
+const getUrisTracks = (tracks) => {
+	console.log("IN GET URIS TRACKS");
+	let uriArray = [];
+	
+	for(let i = 0; i < tracks.length; i++){
+		console.log(JSON.stringify(tracks[i]));
+		uriArray.push(tracks[i].track.uri);
+	}
+
+	return uriArray;
+}
+
+// Makes a request to SpotifyManagerBackend to create tracks for a collabPlaylist
+export const createCollabTracks = (addTracks, playlistId) => {
+	return async (dispatch, getState) => {
+		//pass tracks to be added to collabPlaylist and also the collabortator id
+		const collaborator = getState().auth.userId;
+		const collabTracks = getCollabTracksArray(addTracks);
+
+		await axios.post(uri + "/collabplaylists/" + playlistId + "/tracks", {collaborator, collabTracks});
+
+		history.push("/collabplaylists/" + playlistId);
+	}
 }
 
 // Helper method that creates tracks array in the exact same format as spotify which will be added
@@ -269,6 +304,8 @@ export const getCollabPlaylists = () => {
 	return async (dispatch, getState) => {
 		const response = await axios.get(uri + "/collabplaylists")
 		dispatch({type: "INDEX_COLLAB_PLAYLISTS", payload: response.data});
+		
+		history.push("/collabplaylists");
 	}
 }
 

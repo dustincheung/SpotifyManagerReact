@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
    
 import PlaylistCard from "./PlaylistCard";
 import TracksList from "../tracks/TracksList";
-import {getTracks} from "../../actions";  
+import {createPlaylist, getTracks, createTracks} from "../../actions";  
 
 class PlaylistShow extends React.Component{
 	componentDidMount(){	
@@ -47,7 +47,7 @@ class PlaylistShow extends React.Component{
               <i className="edit icon"></i>
               Edit Info
             </Link>
-            {this.renderShareButton()}
+            {this.renderShareOrSaveButton()}
           </div>
         </div>
         <div className="eleven wide column">
@@ -57,7 +57,7 @@ class PlaylistShow extends React.Component{
 		);
 	}
 
-  renderShareButton = () => {
+  renderShareOrSaveButton = () => {
     if(!this.props.collabMode){
       return(
         <Link className="ui button">
@@ -65,7 +65,23 @@ class PlaylistShow extends React.Component{
           Share
         </Link> 
       );
+    }else{
+      return(
+        <button className="ui button" onClick={(event) => {this.onSaveClick(event)}}>
+          <i className="save icon"></i>
+          Save Playlist
+        </button> 
+      );
     }
+  }
+
+  onSaveClick = async (event) => {
+    event.stopPropagation();
+    await this.props.createPlaylist({name: this.props.playlist.name, description: this.props.playlist.description});
+
+    let playlists = this.props.playlists;
+    console.log("tracks state: " + JSON.stringify(this.props.tracks));
+    await this.props.createTracks(this.props.tracks, playlists[playlists.length - 1].id);
   }
 }
 
@@ -80,6 +96,7 @@ const mapStateToProps = (state, ownProps) => {
 	
 	return {
     playlist: currPlaylist,
+    playlists: state.playlists,
     tracks: state.tracks,
     collabMode: state.collabMode
   }
@@ -101,4 +118,4 @@ const searchForCollabPlaylist = (idKey, array) => {
   }
 }
 
-export default connect(mapStateToProps, {getTracks})(PlaylistShow);
+export default connect(mapStateToProps, {createPlaylist, getTracks, createTracks})(PlaylistShow);
