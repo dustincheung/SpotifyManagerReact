@@ -71,6 +71,12 @@ class PlaylistCard extends React.Component {
             			This is a {this.props.playlist.public ? "public" : "private"} playlist created by {this.props.playlist.owner.display_name}.
            			</div>
 				);	
+			}else{
+				return(
+					<div className="description">
+            			This is a collaborative playlist created by {this.props.playlist.collaborators[0]}.
+           			</div>
+				);	
 			}
 		}
 	}

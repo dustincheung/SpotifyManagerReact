@@ -38,8 +38,8 @@ class Playlists extends React.Component{
 			<div>
   				<div className="ui grid">
   					{this.renderHeading()}
- 					<div className="three wide column">
- 						<Link className="ui vertical animated button" to="/playlists/new" style={{float: "right", marginTop: "2.5em"}}>
+ 					<div className="sixteen wide column" style={{float: "right"}}>
+ 						<Link className="ui vertical animated button" to="/playlists/new" style={{float: "right", margin: 0}}>
   							<div className="hidden content">
   								<i className="plus icon"></i>
   							</div>
@@ -61,26 +61,29 @@ class Playlists extends React.Component{
 	renderHeading = () => {
 		if(!this.props.collabMode){
 			return(
-				<div className="thirteen wide column">
+				<div className="sixteen wide column">
   					<h1 className="display-5" >
 						Playlists Page
 					</h1>
     				<div>
-    					<p className="lead" style={{paddingBottom: "1.2em", fontSize: "1.5em"}}>
-    						Hi {this.props.authId}, you can view and manage your playlists here.
+    					<p className="lead" style={{padding: 0, fontSize: "1.5em"}}>
+    						Hi {this.props.authId}, you can view and manage your playlists here. Clicking a playlist will allow you to modify its
+    						details, tracks, and share it with other users.
     					</p>
     				</div>
   				</div>
 			);
 		}else{
 			return(
-				<div className="thirteen wide column">
+				<div className="sixteen wide column">
   					<h1 className="display-5" >
-						Collab Playlists Page
+						Collaborative Playlists Page
 					</h1>
     				<div>
     					<p className="lead" style={{paddingBottom: "1.2em", fontSize: "1.5em"}}>
-    						Hi {this.props.authId}, you can collaborate on playlists here!
+    						Hi {this.props.authId}, you can collaborate on playlists here. All playlists shared to the collaborative page will
+    						be available for any user to modify playlist details, tracks, and allow users to save a copy of the playlist to their
+    						Spotify.
     					</p>
     				</div>
   				</div>
