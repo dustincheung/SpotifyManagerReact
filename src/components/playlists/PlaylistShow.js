@@ -3,6 +3,7 @@
  */
 
 import React from "react";
+import history from "../../history";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
    
@@ -90,7 +91,12 @@ class PlaylistShow extends React.Component{
     await this.props.createPlaylist({name: this.props.playlist.name, description: this.props.playlist.description});
     
     let playlists = this.props.playlists;
-    await this.props.createTracks(this.props.tracks, playlists[playlists.length - 1].id);
+    if(this.props.tracks.length != 0){
+      await this.props.createTracks(this.props.tracks, playlists[playlists.length - 1].id);
+    }else{
+      history.push("/playlists");
+    }
+    
   }
 }
 
