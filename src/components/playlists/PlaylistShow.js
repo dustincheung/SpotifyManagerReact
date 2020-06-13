@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
    
 import PlaylistCard from "./PlaylistCard";
 import TracksList from "../tracks/TracksList";
-import {createPlaylist, getTracks, createTracks} from "../../actions";  
+import {createPlaylist, createCollabPlaylist, getTracks, createTracks, createCollabTracks} from "../../actions";  
 
 class PlaylistShow extends React.Component{
 	componentDidMount(){	
@@ -51,7 +51,7 @@ class PlaylistShow extends React.Component{
           </div>
         </div>
         <div className="eleven wide column">
-          <TracksList tracks={tracks} type="SHOW" playlistId={this.props.playlist.id}/>  
+          <TracksList tracks={tracks} type="SHOW" playlistId={!this.props.collabMode ? this.props.playlist.id : this.props.playlist._id}/>  
         </div>
       </div>
 		);
@@ -60,27 +60,36 @@ class PlaylistShow extends React.Component{
   renderShareOrSaveButton = () => {
     if(!this.props.collabMode){
       return(
-        <Link className="ui button">
+        <button className="ui button" onClick={(event) => {this.onShareClick(event)}}>
           <i className="edit icon"></i>
-          Share
-        </Link> 
+          Share to Collaborate
+        </button> 
       );
     }else{
       return(
         <button className="ui button" onClick={(event) => {this.onSaveClick(event)}}>
           <i className="save icon"></i>
-          Save Playlist
+          Save to your Playlists
         </button> 
       );
     }
   }
 
-  onSaveClick = async (event) => {
-    event.stopPropagation();
-    await this.props.createPlaylist({name: this.props.playlist.name, description: this.props.playlist.description});
+  //called when sharing an actual spotify playlist to a collabPlaylist, it consists of creating
+  //collabPlaylist and adding tracks to this collabPlaylist
+  onShareClick = async (event) => {
+    await this.props.createCollabPlaylist({name: this.props.playlist.name, description: this.props.playlist.description});
+    
+    let collabPlaylists = this.props.collabPlaylists;
+    await this.props.createCollabTracks(this.props.tracks, collabPlaylists[collabPlaylists.length -1]._id);
+  }
 
+  //called when saving a collabPlaylist to an actual spotify playlist, it consists of creating
+  //spotify playlist and adding tracks to this spotify playlist
+  onSaveClick = async (event) => {
+    await this.props.createPlaylist({name: this.props.playlist.name, description: this.props.playlist.description});
+    
     let playlists = this.props.playlists;
-    console.log("tracks state: " + JSON.stringify(this.props.tracks));
     await this.props.createTracks(this.props.tracks, playlists[playlists.length - 1].id);
   }
 }
@@ -97,6 +106,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
     playlist: currPlaylist,
     playlists: state.playlists,
+    collabPlaylists: state.collabPlaylists,
     tracks: state.tracks,
     collabMode: state.collabMode
   }
@@ -118,4 +128,4 @@ const searchForCollabPlaylist = (idKey, array) => {
   }
 }
 
-export default connect(mapStateToProps, {createPlaylist, getTracks, createTracks})(PlaylistShow);
+export default connect(mapStateToProps, {createPlaylist, createCollabPlaylist, getTracks, createTracks, createCollabTracks})(PlaylistShow);

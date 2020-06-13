@@ -8,7 +8,7 @@
 import React from "react";
 import {connect} from "react-redux";
 
-import {deleteTrack, createAddTracks, deleteSearchTrack, deleteAddTrack, createSearchTrack} from "../../actions";
+import {deleteTrack, deleteCollabTrack, createAddTracks, deleteSearchTrack, deleteAddTrack, createSearchTrack} from "../../actions";
 
 class TracksList extends React.Component{
 	render(){			//render either list for PlaylistShow or list for TracksCreate (search page)
@@ -30,14 +30,14 @@ class TracksList extends React.Component{
                   		<div className="content">
                     		<div className="header">{track.track.name}</div>
                     		By {track.track.artists[0].name}
-                    		<div className="tiny ui animated button" onClick={() => this.props.deleteTrack(track.track.id, track.track.uri, this.props.playlistId)} style={{float: "right"}}>
+                    		<button className="tiny ui animated button" onClick={(event) => this.onShowDeleteClick(event, track)} style={{float: "right"}}>
    								<div className="visible content">
    									<i className="minus icon"></i>
    								</div>
    								<div className="hidden content">
      								delete
    								</div>
- 							</div>
+ 							</button>
                   		</div>
                 	</div>
             	)
@@ -49,6 +49,19 @@ class TracksList extends React.Component{
     			</p>
 			);
 		}
+	}
+
+	onShowDeleteClick = (event, track) => {
+		event.stopPropagation();
+
+		if(!this.props.collabMode){
+			this.props.deleteTrack(track.track.id, track.track.uri, this.props.playlistId);
+		}else{
+			console.log("playlistId: " + this.props.playlistId);
+			console.log("track name: " + track.track.name);
+			this.props.deleteCollabTrack(this.props.playlistId, track.track.name);
+		}
+		
 	}
 
 	renderSearch = () => {						//for TracksCreate page where buttons may vary for searchTracks vs. addTracks
@@ -129,4 +142,4 @@ const mapStateToProps = (state, ownProps) => {
 	};
 }
 
-export default connect(mapStateToProps, {deleteTrack, createAddTracks, deleteSearchTrack, deleteAddTrack, createSearchTrack})(TracksList);
+export default connect(mapStateToProps, {deleteTrack, deleteCollabTrack, createAddTracks, deleteSearchTrack, deleteAddTrack, createSearchTrack})(TracksList);

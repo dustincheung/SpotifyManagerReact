@@ -73,11 +73,6 @@ class PlaylistCard extends React.Component {
 		}
 	}
 
-	onSaveClick = (event) => {
-		event.stopPropagation();
-		this.props.createPlaylist({name: this.props.playlist.name, description: this.props.playlist.description});
-	}
-
 	renderDelete = () => {
 		if(!this.props.collabMode && this.props.currUser === this.props.playlist.owner.id){
 			return(

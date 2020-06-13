@@ -184,21 +184,25 @@ const getUrisTracks = (tracks) => {
 }
 
 // Makes a request to SpotifyManagerBackend to create tracks for a collabPlaylist
-export const createCollabTracks = (addTracks, playlistId) => {
+export const createCollabTracks = (tracks, playlistId) => {
 	return async (dispatch, getState) => {
 		//pass tracks to be added to collabPlaylist and also the collabortator id
 		const collaborator = getState().auth.userId;
-		const collabTracks = getCollabTracksArray(addTracks);
+		const collabTracks = getState().collabMode ? formatTracksFromAddTracks(tracks) : formatTracksFromTracks(tracks);
 
 		await axios.post(uri + "/collabplaylists/" + playlistId + "/tracks", {collaborator, collabTracks});
 
-		history.push("/collabplaylists/" + playlistId);
+		if(!getState().collabMode){
+			history.push("/collabplaylists");
+		}else{
+			history.push("/collabplaylists/" + playlistId);
+		}
 	}
 }
 
-// Helper method that creates tracks array in the exact same format as spotify which will be added
-// to the tracks attrb of our CollabPlaylist schema so that all track components data logic remains the same
-const getCollabTracksArray = (tracksArray) => {
+// Helper method to format tracks from addTracks state into the array of custom track objects 
+// that my collabPlaylist schema will use
+const formatTracksFromAddTracks = (tracksArray) => {
 	let collabTracks = [];
 
 	for(let i = 0; i < tracksArray.length; i++){
@@ -219,6 +223,29 @@ const getCollabTracksArray = (tracksArray) => {
 	return collabTracks;
 }
 
+// Helper method to format tracks from tracks state into the array of custom track objects 
+// that my collabPlaylist schema will use
+const formatTracksFromTracks = (tracksArray) => {
+	let collabTracks = [];
+
+	for(let i = 0; i < tracksArray.length; i++){
+		let collabTrack = {
+			track: {
+				name: tracksArray[i].track.name,
+				uri: tracksArray[i].track.uri,
+				artists: [
+					{
+						name: tracksArray[i].track.artists[0].name
+					}
+				]
+			}
+		}
+
+		collabTracks.push(collabTrack);
+	}
+	return collabTracks;
+}
+
 // Makes a spotify api request to remove tracks given the playlist id and an array of track uri's that you 
 // wish to remove (in this case we make an array of one track uri)
 export const deleteTrack = (trackId, trackUri, playlistId) => {
@@ -229,6 +256,18 @@ export const deleteTrack = (trackId, trackUri, playlistId) => {
 
 		dispatch({type: "DELETE_TRACK", payload: trackId});
 		history.push("/playlists/" + playlistId);
+	}
+}
+
+export const deleteCollabTrack = (id, trackName) => {
+	return async(dispatch, getState) => {
+		const response = await axios.delete(uri + "/collabplaylists/" + id + "/tracks/" + trackName + "/delete");
+
+		//instead of using type "DELETE_TRACKS" and needing to filter out tracks state just force a re-index with 
+		//the response of our request, thus updating our tracks state without the deleted track
+		dispatch({type: "INDEX_TRACKS", payload: response.data})
+
+		history.push("/collabplaylists/" + id);
 	}
 }
 
@@ -322,7 +361,10 @@ export const createCollabPlaylist = (formValues) => {
 		//takes response of request and updates redux store
 		dispatch({type: "CREATE_COLLAB_PLAYLIST", payload: response.data});
 
-		history.push("/collabplaylists");
+		//do not redirect yet if called from share playlist in regular mode
+		if(getState().collabMode){
+			history.push("/collabplaylists");
+		}
 	}
 }
 
