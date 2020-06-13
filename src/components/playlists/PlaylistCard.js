@@ -25,7 +25,7 @@ class PlaylistCard extends React.Component {
           		<div className="content">
            		 <div className="header">{this.props.playlist.name}</div>
             		<div className="meta">
-             		 <span className="date">{this.props.playlist.tracks.total} tracks</span>
+             		 <span className="date">{!this.props.collabMode ? this.props.playlist.tracks.total : this.props.playlist.tracks.length} tracks</span>
             		</div>
             		{this.renderDescription()}
           		</div>
@@ -65,11 +65,13 @@ class PlaylistCard extends React.Component {
             	</div>
 			);
 		}else{
-			return(
-				<div className="description">
-            		This is a {this.props.playlist.public ? "public" : "private"} playlist created by {this.props.playlist.owner.display_name}.
-           		</div>
-			);
+			if(!this.props.collabMode){
+				return(
+					<div className="description">
+            			This is a {this.props.playlist.public ? "public" : "private"} playlist created by {this.props.playlist.owner.display_name}.
+           			</div>
+				);	
+			}
 		}
 	}
 
