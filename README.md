@@ -1,7 +1,6 @@
 # [SpotifyManager](https://spotifymanagerapp.herokuapp.com/):musical_note:
 
-SpotifyManager is a full stack MERN web application that allows Spotify Users to to modify and manage
-their playlists and to also share their playlists with other users to allow for easy collaboration (multiple users modifying a single playlist). It supports the following use cases:
+SpotifyManager is a full stack MERN web application that uses the Spotify API to allow Spotify Users to to modify and manage their playlists and to also share their playlists with other users to allow for easy collaboration (multiple users modifying a single playlist). It supports the following use cases:
 * Spotify User Authentication (OAuth 2.0)
 * creating a playlist
 * editing a playlist's details
@@ -16,7 +15,7 @@ their playlists and to also share their playlists with other users to allow for 
 
 The front-end and back-end are hosted on Heroku seperately.
 
-## Getting Started
+## Getting Started:white_check_mark:
 
 [SpotifyManager is deployed on Heroku here](https://spotifymanagerapp.herokuapp.com/)
 
@@ -26,7 +25,7 @@ Clicking the trash icon will delete the playlist and clicking on a playlist will
 
 You can even share a playlist to allow for collaboration.  Sharing a playlist will put the playlist to the collaborative playlists page which can be navigated to using the menu bar. This will allow all users on the site to collaborate on this playlist (edit details, add/remove tracks) and ultimately save a copy of the playlist for themselves.
 
-## App Demo
+## App Demo:apple:
 ### Spotify OAuth:
 ![Spotify OAuth](./demo/Spotify-OAuth-20.gif)
 
@@ -42,7 +41,7 @@ You can even share a playlist to allow for collaboration.  Sharing a playlist wi
 ### Modifying a collaborative playlist and saving:
 ![Spotify OAuth](./demo/User-collaboration.gif)
 
-## Built With
+## Built With:hammer:
 ### Front-End:
 * [HTML5] - Hypertext Markup Language
 * [CSS3] - Cascading Style Sheets
@@ -56,7 +55,7 @@ You can even share a playlist to allow for collaboration.  Sharing a playlist wi
 * [MongoDB](https://reactjs.org) - Document-based NoSQL database
 
 ### Significant NPM Packages (Front-End & Back-End):
-* [Spotify-web-api-js](https://nodejs.org/en/) -
+* [Spotify-web-api-js](https://www.npmjs.com/package/spotify-web-api-js) - lightweight wrapper for the Spotify Web API
 * [Body-parser](https://www.npmjs.com/package/body-parser) - Request body parsing middleware
 * [Dotenv](https://www.npmjs.com/package/dotenv) - Module that loads env variables from .env file
 * [Axios](https://www.npmjs.com/package/axios) - Promise based HTTP client for the browser and node.js
@@ -64,11 +63,11 @@ You can even share a playlist to allow for collaboration.  Sharing a playlist wi
 * [Redux-form](https://www.npmjs.com/package/redux-form) - Works with React Redux to enable an html form in React to use Redux to store all of its state
 * [Redux-thunk](https://www.npmjs.com/package/redux-thunk) - Middleware for Redux that allows action creators to return async functions, useful for network requests
 
-## Deployment
+## Deployment:computer:
 
-[SpotifyManager is deployed on Heroku here](https://spotifymanagerapp.herokuapp.com/)
-[SpotifyManager back-end REST API server is deployed on Heroku here](https://spotifymanager.herokuapp.com/)
+* [SpotifyManager is deployed on Heroku here](https://spotifymanagerapp.herokuapp.com/)
+* [SpotifyManager back-end REST API server is deployed on Heroku here](https://spotifymanager.herokuapp.com/)
 
-## Authors
+## Authors:pencil2:
 
 * **Dustin Cheung** - [dustincheung](https://github.com/dustincheung)
