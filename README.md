@@ -1,87 +1,74 @@
-# Project Title
+# [SpotifyManager](https://spotifymanagerapp.herokuapp.com/):musical_note:
 
-One Paragraph of project description goes here
+SpotifyManager is a full stack MERN web application that allows Spotify Users to to modify and manage
+their playlists and to also share their playlists with other users to allow for easy collaboration (multiple users modifying a single playlist). It supports the following use cases:
+* Spotify User Authentication (OAuth 2.0)
+* creating a playlist
+* editing a playlist's details
+* deleting a playlist
+* sharing a playlist to allow other users of the site to collaborate
+* dynamic track searching
+* adding tracks to a playlist
+* deleting tracks from a playlist
+* saving collaborative playlists 
+
+:exclamation: This repo contains the front-end code only, the back-end express REST API server repo can be found here: [Back-End Express REST API](https://github.com/dustincheung/SpotifyManagerBackend):exclamation:
+
+The front-end and back-end are hosted on Heroku seperately.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+[SpotifyManager is deployed on Heroku here](https://spotifymanagerapp.herokuapp.com/)
 
-### Prerequisites
+Click the link and sign into Spotify (if you do not have a Spotify account I demo the functionality below). After signing in you will see your playlist page populated with your Spotify playlists.  
 
-What things you need to install the software and how to install them
+Clicking the trash icon will delete the playlist and clicking on a playlist will load the playlist details page. The playlist details page will allow you to edit details on a playlist and add/remove tracks.  
 
-```
-Give examples
-```
+You can even share a playlist to allow for collaboration.  Sharing a playlist will put the playlist to the collaborative playlists page which can be navigated to using the menu bar. This will allow all users on the site to collaborate on this playlist (edit details, add/remove tracks) and ultimately save a copy of the playlist for themselves.
 
-### Installing
+## App Demo
+### Spotify OAuth:
+![Spotify OAuth](./demo/Spotify-OAuth-20.gif)
 
-A step by step series of examples that tell you how to get a development env running
+### Creating/deleting/editing a playlist:
+![Spotify OAuth](./demo/CreationEditDelete-Playlist.gif)
 
-Say what the step will be
+### Adding/removing tracks from a playlist (dynamic search feature):
+![Spotify OAuth](./demo/AddingRemoving-Tracks.gif)
 
-```
-Give the example
-```
+### Sharing a playlist to allow for collaboration:
+![Spotify OAuth](./demo/Sharing-a-collab-playlist.gif)
 
-And repeat
+### Modifying a collaborative playlist and saving:
+![Spotify OAuth](./demo/User-collaboration.gif)
 
-```
-until finished
-```
+## Built With
+### Front-End:
+* [HTML5] - Hypertext Markup Language
+* [CSS3] - Cascading Style Sheets
+* [React.js](https://reactjs.org) - JavaScript front-end library using components to build user interfaces
+* [React-Redux.js](https://reactjs.org) - Predictable state container for JavaScript apps
+* [Semantic UI](https://semantic-ui.com) - CSS framework
 
-End with an example of getting some data out of the system or using it for a little demo
+### Back-End:
+* [Node.js](https://nodejs.org/en/) - JavaScript runtime environment that executes JavaScript server side 
+* [Express.js](https://expressjs.com) - Lightweight Node.js web application server framework
+* [MongoDB](https://reactjs.org) - Document-based NoSQL database
 
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+### Significant NPM Packages (Front-End & Back-End):
+* [Spotify-web-api-js](https://nodejs.org/en/) -
+* [Body-parser](https://www.npmjs.com/package/body-parser) - Request body parsing middleware
+* [Dotenv](https://www.npmjs.com/package/dotenv) - Module that loads env variables from .env file
+* [Axios](https://www.npmjs.com/package/axios) - Promise based HTTP client for the browser and node.js
+* [React-router-dom](https://www.npmjs.com/package/react-router-dom) - DOM bindings for React Router
+* [Redux-form](https://www.npmjs.com/package/redux-form) - Works with React Redux to enable an html form in React to use Redux to store all of its state
+* [Redux-thunk](https://www.npmjs.com/package/redux-thunk) - Middleware for Redux that allows action creators to return async functions, useful for network requests
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+[SpotifyManager is deployed on Heroku here](https://spotifymanagerapp.herokuapp.com/)
+[SpotifyManager back-end REST API server is deployed on Heroku here](https://spotifymanager.herokuapp.com/)
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* **Dustin Cheung** - [dustincheung](https://github.com/dustincheung)
