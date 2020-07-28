@@ -17,6 +17,7 @@ The front-end and back-end are hosted on Heroku seperately.
 
 ## Getting Started:white_check_mark:
 
+If the app hasn't been accessed recently please give it some time to fully load:  
 [SpotifyManager is deployed on Heroku here](https://spotifymanagerapp.herokuapp.com/)
 
 Click the link and sign into Spotify (if you do not have a Spotify account I demo the functionality below). After signing in you will see your playlist page populated with your Spotify playlists.  
