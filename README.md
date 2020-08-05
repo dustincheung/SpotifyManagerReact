@@ -1,6 +1,6 @@
 # [SpotifyManager](https://spotifymanagerapp.herokuapp.com/):musical_note:
 
-SpotifyManager is a full stack MERN web application that uses the Spotify API to allow Spotify Users to to modify and manage their playlists and to also share their playlists with other users to allow for easy collaboration (multiple users modifying a single playlist). It supports the following use cases:
+SpotifyManager is a full stack **MERN** web application that uses the Spotify API to allow Spotify Users to to modify and manage their playlists and to also share their playlists with other users to allow for easy collaboration (multiple users modifying a single playlist). It supports the following use cases:
 * Spotify User Authentication (OAuth 2.0)
 * creating a playlist
 * editing a playlist's details
@@ -44,8 +44,8 @@ You can even share a playlist to allow for collaboration.  Sharing a playlist wi
 
 ## Built With:hammer:
 ### Front-End:
-* [HTML5] - Hypertext Markup Language
-* [CSS3] - Cascading Style Sheets
+* HTML5 - Hypertext Markup Language
+* CSS3 - Cascading Style Sheets
 * [React.js](https://reactjs.org) - JavaScript front-end library using components to build user interfaces
 * [React-Redux.js](https://reactjs.org) - Predictable state container for JavaScript apps
 * [Semantic UI](https://semantic-ui.com) - CSS framework
@@ -54,6 +54,7 @@ You can even share a playlist to allow for collaboration.  Sharing a playlist wi
 * [Node.js](https://nodejs.org/en/) - JavaScript runtime environment that executes JavaScript server side 
 * [Express.js](https://expressjs.com) - Lightweight Node.js web application server framework
 * [MongoDB](https://reactjs.org) - Document-based NoSQL database
+* [mongoose](https://mongoosejs.com) - Object Data Modeling and Validation
 
 ### Significant NPM Packages (Front-End & Back-End):
 * [Spotify-web-api-js](https://www.npmjs.com/package/spotify-web-api-js) - lightweight wrapper for the Spotify Web API
